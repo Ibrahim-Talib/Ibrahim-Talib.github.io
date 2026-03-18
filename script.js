@@ -33,40 +33,51 @@ document.addEventListener('DOMContentLoaded', () => {
       hamburger.classList.remove('active');
       navLinks.classList.remove('nav-open');
     }
+  });
 
     // ============================================
   // CONTACT FORM — PREVENT DEFAULT SUBMIT
   // ============================================
 
-  const contactForm = document.querySelector('.contact-form');
+const contactForm = document.querySelector('.contact-form');
 
   if (contactForm) {
     contactForm.addEventListener('submit', (e) => {
-      e.preventDefault(); // stops the browser POST — no more 405
+      e.preventDefault();
 
       const btn = contactForm.querySelector('button[type="submit"]');
       const originalText = btn.textContent;
+      const formData = new FormData(contactForm);
 
-      // Show sending state
       btn.textContent = 'Sending...';
       btn.disabled = true;
 
-      // Simulate a brief pause then show success
-      // In Phase 5 we replace this with a real email service
-      setTimeout(() => {
-        btn.textContent = 'Message Sent ✅';
-        contactForm.reset(); // clears all fields
-
-        // Reset button after 3 seconds
-        setTimeout(() => {
-          btn.textContent = originalText;
+      fetch(contactForm.action, {
+        method: 'POST',
+        body: formData,
+        headers: { 'Accept': 'application/json' }
+      })
+      .then(response => {
+        if (response.ok) {
+          btn.textContent = 'Message Sent ✅';
+          contactForm.reset();
+          setTimeout(() => {
+            btn.textContent = originalText;
+            btn.disabled = false;
+          }, 3000);
+        } else {
+          btn.textContent = 'Error — Try Again';
           btn.disabled = false;
-        }, 3000);
-      }, 1000);
+        }
+      })
+      .catch(() => {
+        btn.textContent = 'Error — Try Again';
+        btn.disabled = false;
+      });
 
     });
   }
-  });
+  
 
   // ============================================
   // SCROLL REVEAL — INTERSECTION OBSERVER
