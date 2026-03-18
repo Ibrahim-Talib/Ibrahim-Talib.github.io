@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ibrahim Talib | Portfolio</title>
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+
+    <!-- ============================================
+         NAVIGATION BAR
+    ============================================ -->
+    <header>
+      <nav class="navbar">
+        <div class="nav-logo">
+          <a href="#hero">I <span>T</span></a>
+        </div>
+        <ul class="nav-links">
+          <li><a href="#about">About</a></li>
+          <li><a href="#skills">Skills</a></li>
+          <li><a href="#projects">Projects</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+        <div class="hamburger">
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </nav>
+    </header>
+
+    <main>
+
+      <!-- ============================================
+           HERO SECTION
+      ============================================ -->
+      <section id="hero" class="hero-section">
+
+        <!-- Network canvas — renders behind all hero content -->
+        <canvas id="hero-canvas" class="hero-canvas"></canvas>
+
+        <div class="hero-content">
+          <p class="hero-greeting">Hi there, I'm</p>
+          <h1 class="hero-name">Ibrahim Talib</h1>
+          <h2 class="hero-title">
+            <span class="title-static">A </span>
+            <span class="title-dynamic"></span>
+          </h2>
+          <p class="hero-tagline">
+            I build clean, purposeful digital experiences —
+            from idea to deployed product.
+            I try to learn my way through college.
+          </p>
+          <div class="hero-buttons">
+            <a href="#projects" class="btn btn-primary">View My Work</a>
+            <a href="#contact" class="btn btn-secondary">Contact Me</a>
+          </div>
+        </div>
+
+      </section>
+
+      <!-- ============================================
+           ABOUT SECTION
+      ============================================ -->
+      <section id="about" class="about-section">
+        <div class="section-container">
+
+          <div class="about-image reveal">
+            <img
+              src="assets/images/Ibrahim.jpeg"
+              alt="A photo of Ibrahim Talib"
+              class="profile-photo"
+            />
+          </div>
+
+          <div class="about-content reveal reveal-delay-2">
+            <p class="section-label">Get To Know Me</p>
+            <h2 class="section-heading">About Me</h2>
+            <p class="about-text">
+              Hi! I'm Ibrahim, a passionate developer based in Lahore, Pakistan.
+              I enjoy building things that live on the internet — whether that's
+              websites, applications, or anything in between.
+            </p>
+            <p class="about-text">
+              I have a background in <strong>computer science</strong> and a
+              love for clean code, thoughtful design, and solving real problems
+              through technology. I'm currently looking for opportunities to
+              grow, contribute, and build great things with great teams.
+            </p>
+            <div class="about-info">
+              <div class="info-item">
+                <span class="info-label">Location</span>
+                <span class="info-value">Lahore, Pakistan</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Availability</span>
+                <span class="info-value">Open to Internships ✅</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Education</span>
+                <span class="info-value">BS Computer Science — LUMS</span>
+              </div>
+              <div class="info-item">
+                <span class="info-label">Language</span>
+                <span class="info-value">English, Urdu</span>
+              </div>
+            </div>
+            <a href="assets/ibrahim-talib-cv.pdf" download class="btn btn-primary">
+              Download CV
+            </a>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ============================================
+           SKILLS SECTION
+      ============================================ -->
+      <section id="skills" class="skills-section">
+        <div class="section-container">
+
+          <p class="section-label">What I Work With</p>
+          <h2 class="section-heading">My Skills</h2>
+
+          <!-- Languages -->
+          <div class="skills-category reveal">
+            <h3 class="category-title">Languages</h3>
+            <div class="skills-row">
+
+              <div class="skill-pill" data-count="60">
+                <div class="pill-top">
+                  <span class="pill-icon">⚙️</span>
+                  <span class="pill-name">C/C++</span>
+                </div>
+                <div class="pill-slide">
+                  <div class="ring-wrap">
+                    <svg width="52" height="52" viewBox="0 0 52 52">
+                      <circle class="ring-bg" cx="26" cy="26" r="21"/>
+                      <circle class="ring-fill" cx="26" cy="26" r="21"/>
+                    </svg>
+                    <div class="ring-pct">0%</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="skill-pill" data-count="30">
+                <div class="pill-top">
+                  <span class="pill-icon">🐍</span>
+                  <span class="pill-name">Python</span>
+                </div>
+                <div class="pill-slide">
+                  <div class="ring-wrap">
+                    <svg width="52" height="52" viewBox="0 0 52 52">
+                      <circle class="ring-bg" cx="26" cy="26" r="21"/>
+                      <circle class="ring-fill" cx="26" cy="26" r="21"/>
+                    </svg>
+                    <div class="ring-pct">0%</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Web Development -->
+          <div class="skills-category reveal">
+            <h3 class="category-title">
+              Web Development
+              <span class="learning-badge">Learning</span>
+            </h3>
+            <div class="skills-row">
+
+              <div class="skill-pill" data-count="30">
+                <div class="pill-top">
+                  <span class="pill-icon">🌐</span>
+                  <span class="pill-name">HTML5</span>
+                </div>
+                <div class="pill-slide">
+                  <div class="ring-wrap">
+                    <svg width="52" height="52" viewBox="0 0 52 52">
+                      <circle class="ring-bg" cx="26" cy="26" r="21"/>
+                      <circle class="ring-fill" cx="26" cy="26" r="21"/>
+                    </svg>
+                    <div class="ring-pct">0%</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="skill-pill" data-count="20">
+                <div class="pill-top">
+                  <span class="pill-icon">🎨</span>
+                  <span class="pill-name">CSS3</span>
+                </div>
+                <div class="pill-slide">
+                  <div class="ring-wrap">
+                    <svg width="52" height="52" viewBox="0 0 52 52">
+                      <circle class="ring-bg" cx="26" cy="26" r="21"/>
+                      <circle class="ring-fill" cx="26" cy="26" r="21"/>
+                    </svg>
+                    <div class="ring-pct">0%</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="skill-pill" data-count="10">
+                <div class="pill-top">
+                  <span class="pill-icon">⚡</span>
+                  <span class="pill-name">JavaScript</span>
+                </div>
+                <div class="pill-slide">
+                  <div class="ring-wrap">
+                    <svg width="52" height="52" viewBox="0 0 52 52">
+                      <circle class="ring-bg" cx="26" cy="26" r="21"/>
+                      <circle class="ring-fill" cx="26" cy="26" r="21"/>
+                    </svg>
+                    <div class="ring-pct">0%</div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Tools & Systems -->
+          <div class="skills-category reveal">
+            <h3 class="category-title">Tools &amp; Systems</h3>
+            <div class="skills-row">
+
+              <div class="skill-pill" data-count="25">
+                <div class="pill-top">
+                  <span class="pill-icon">🌿</span>
+                  <span class="pill-name">Git</span>
+                </div>
+                <div class="pill-slide">
+                  <div class="ring-wrap">
+                    <svg width="52" height="52" viewBox="0 0 52 52">
+                      <circle class="ring-bg" cx="26" cy="26" r="21"/>
+                      <circle class="ring-fill" cx="26" cy="26" r="21"/>
+                    </svg>
+                    <div class="ring-pct">0%</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="skill-pill" data-count="40">
+                <div class="pill-top">
+                  <span class="pill-icon">🐙</span>
+                  <span class="pill-name">GitHub</span>
+                </div>
+                <div class="pill-slide">
+                  <div class="ring-wrap">
+                    <svg width="52" height="52" viewBox="0 0 52 52">
+                      <circle class="ring-bg" cx="26" cy="26" r="21"/>
+                      <circle class="ring-fill" cx="26" cy="26" r="21"/>
+                    </svg>
+                    <div class="ring-pct">0%</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="skill-pill" data-count="20">
+                <div class="pill-top">
+                  <span class="pill-icon">🐧</span>
+                  <span class="pill-name">Linux/Ubuntu</span>
+                </div>
+                <div class="pill-slide">
+                  <div class="ring-wrap">
+                    <svg width="52" height="52" viewBox="0 0 52 52">
+                      <circle class="ring-bg" cx="26" cy="26" r="21"/>
+                      <circle class="ring-fill" cx="26" cy="26" r="21"/>
+                    </svg>
+                    <div class="ring-pct">0%</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="skill-pill" data-count="50">
+                <div class="pill-top">
+                  <span class="pill-icon">🖥️</span>
+                  <span class="pill-name">VMware</span>
+                </div>
+                <div class="pill-slide">
+                  <div class="ring-wrap">
+                    <svg width="52" height="52" viewBox="0 0 52 52">
+                      <circle class="ring-bg" cx="26" cy="26" r="21"/>
+                      <circle class="ring-fill" cx="26" cy="26" r="21"/>
+                    </svg>
+                    <div class="ring-pct">0%</div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================
+           PROJECTS SECTION
+      ============================================ -->
+      <section id="projects" class="projects-section">
+        <div class="section-container">
+
+          <p class="section-label">What I've Built</p>
+          <h2 class="section-heading">My Projects</h2>
+
+          <div class="projects-grid">
+
+            <article class="project-card reveal">
+              <div class="project-image">
+                <img
+                  src="https://placehold.co/600x400"
+                  alt="Screenshot of ATM Simulation System"
+                  class="project-screenshot"
+                />
+                <div class="project-overlay">
+                  <span>View Project</span>
+                </div>
+              </div>
+              <div class="project-info">
+                <div class="project-tags">
+                  <span class="tech-tag">C++</span>
+                  <span class="tech-tag">SQL</span>
+                  <span class="tech-tag">OOP</span>
+                  <span class="tech-tag">GUI</span>
+                </div>
+                <h3 class="project-title">ATM Simulation System</h3>
+                <p class="project-description">
+                  A fully functional ATM simulator built in C++ with an integrated
+                  SQL database. Supports account creation, login authentication,
+                  withdrawals, deposits, and balance inquiries — with a custom GUI
+                  to simulate real ATM operations and secure data handling.
+                </p>
+                <div class="project-links">
+                  <a href="https://github.com/Ibrahim-Talib" target="_blank" rel="noopener noreferrer" class="btn btn-primary">GitHub</a>
+                  <a href="#" class="btn btn-secondary">Coming Soon</a>
+                </div>
+              </div>
+            </article>
+
+            <article class="project-card project-placeholder reveal reveal-delay-2">
+              <div class="project-info">
+                <h3 class="project-title">Next Project</h3>
+                <p class="project-description">
+                  Currently working on something new. Check back soon.
+                </p>
+              </div>
+            </article>
+
+          </div>
+
+        </div>
+      </section>
+
+      <!-- ============================================
+           CONTACT SECTION
+      ============================================ -->
+      <section id="contact" class="contact-section">
+        <div class="section-container">
+
+          <p class="section-label">Get In Touch</p>
+          <h2 class="section-heading">Contact Me</h2>
+
+          <p class="contact-intro">
+            I'm currently open to internship opportunities and collaborations.
+            Whether you have a question, a project idea, or just want to say hi —
+            my inbox is always open.
+          </p>
+
+          <div class="contact-wrapper">
+
+            <form class="contact-form reveal" action="#" method="POST">
+              <div class="form-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" placeholder="Your full name" required />
+              </div>
+              <div class="form-group">
+                <label for="email">Email Address</label>
+                <input type="email" id="email" name="email" placeholder="your@email.com" required />
+              </div>
+              <div class="form-group">
+                <label for="subject">Subject</label>
+                <input type="text" id="subject" name="subject" placeholder="What is this about?" required />
+              </div>
+              <div class="form-group">
+                <label for="message">Message</label>
+                <textarea id="message" name="message" rows="5" placeholder="Write your message here..." required></textarea>
+              </div>
+              <button type="submit" class="btn btn-primary">Send Message</button>
+            </form>
+
+            <div class="contact-info reveal reveal-delay-2">
+              <div class="contact-item">
+                <span class="contact-icon">📧</span>
+                <div>
+                  <p class="contact-label">Email</p>
+                  <a href="mailto:ibrahimtalib.official@gmail.com" class="contact-link">ibrahimtalib.official@gmail.com</a>
+                </div>
+              </div>
+              <div class="contact-item">
+                <span class="contact-icon">📍</span>
+                <div>
+                  <p class="contact-label">Location</p>
+                  <p class="contact-value">Lahore, Pakistan</p>
+                </div>
+              </div>
+              <div class="contact-item">
+                <span class="contact-icon">🎓</span>
+                <div>
+                  <p class="contact-label">University</p>
+                  <p class="contact-value">LUMS — BS Computer Science</p>
+                  <p class="contact-value">Specialization: Cyber Security</p>
+                </div>
+              </div>
+              <div class="contact-socials">
+                <a href="https://linkedin.com/in/ibrahim-talib-30941536a" target="_blank" rel="noopener noreferrer" class="social-link">LinkedIn</a>
+                <a href="https://github.com/Ibrahim-Talib" target="_blank" rel="noopener noreferrer" class="social-link">GitHub</a>
+              </div>
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
+    </main>
+
+    <!-- ============================================
+         FOOTER
+    ============================================ -->
+    <footer class="footer">
+      <div class="footer-container">
+        <p class="footer-name">Ibrahim Talib</p>
+        <p class="footer-tagline">CS Student @ LUMS · Aspiring Cybersecurity Engineer</p>
+        <div class="footer-links">
+          <a href="#hero">Home</a>
+          <a href="#about">About</a>
+          <a href="#skills">Skills</a>
+          <a href="#projects">Projects</a>
+          <a href="#contact">Contact</a>
+        </div>
+        <p class="footer-copy">
+          &copy; 2026 Ibrahim Talib. Built from scratch with HTML, CSS &amp; JavaScript.
+        </p>
+      </div>
+    </footer>
+
+    <!-- Anime.js must load BEFORE script.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
+    <script src="script.js"></script>
+
+  </body>
+
+</html>
