@@ -168,10 +168,23 @@ const contactForm = document.querySelector('.contact-form');
 
     // Resize canvas to match hero section dimensions
     const resize = () => {
-      W = canvas.width  = heroSection.offsetWidth;
-      H = canvas.height = heroSection.offsetHeight;
-      initNodes();
-    };
+  W = canvas.width  = heroSection.offsetWidth;
+  H = canvas.height = heroSection.offsetHeight;
+
+  // Only create new nodes on first load — not on every resize
+  // On mobile, scrolling triggers resize when the address bar hides
+  // Calling initNodes() would reset all opacities to 0 permanently
+  if (!nodes) {
+    initNodes();
+    anime({
+      targets: nodes,
+      opacity: (node) => Math.random() * 0.55 + 0.45,
+      duration: 2400,
+      delay: anime.stagger(25, { from: 'random' }),
+      easing: 'easeOutQuad'
+    });
+  }
+};
 
     // Create all nodes with random positions, velocities, sizes
     const initNodes = () => {
