@@ -290,17 +290,6 @@ const contactForm = document.querySelector('.contact-form');
     window.addEventListener('resize', resize);
     drawFrame();
 
-    // Fade all nodes in using anime.js — staggered spawn effect
-    // anime.js animates the .opacity property on each node JS object
-    // Our drawFrame() reads node.opacity when drawing — so this works
-    anime({
-      targets: nodes,
-      opacity: (node) => Math.random() * 0.55 + 0.45,
-      duration: 2400,
-      delay: anime.stagger(25, { from: 'random' }),
-      easing: 'easeOutQuad'
-    });
-
   }
 
 // ============================================
