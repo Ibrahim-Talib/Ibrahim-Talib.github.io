@@ -36,7 +36,14 @@ document.addEventListener('DOMContentLoaded', () => {
     const bgResize = () => {
       bgW = bgCanvas.width  = window.innerWidth;
       bgH = bgCanvas.height = window.innerHeight;
-      if (!bgNodes) bgInitNodes();
+
+  // iOS Safari fix — document height instead of window height
+  // when address bar shows/hides it changes innerHeight but
+  // the canvas needs to cover the full document
+      bgCanvas.style.width  = '100%';
+      bgCanvas.style.height = '100%';
+
+    if (!bgNodes) bgInitNodes();
     };
 
     const bgInitNodes = () => {
@@ -54,6 +61,16 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('mousemove', e => {
       bgMouseX = e.clientX;
       bgMouseY = e.clientY;
+    });
+
+    document.addEventListener('touchmove', e => {
+      bgMouseX = e.touches[0].clientX;
+      bgMouseY = e.touches[0].clientY;
+    }, { passive: true });
+
+    document.addEventListener('touchend', () => {
+      bgMouseX = -9999;
+      bgMouseY = -9999;
     });
 
     const bgDraw = () => {
@@ -334,6 +351,19 @@ const contactForm = document.querySelector('.contact-form');
     });
 
     heroSection.addEventListener('mouseleave', () => {
+      mouseX = -9999;
+      mouseY = -9999;
+    });
+
+    // ADD after heroSection.addEventListener('mouseleave', ...)
+
+    heroSection.addEventListener('touchmove', e => {
+      const rect = heroSection.getBoundingClientRect();
+      mouseX = e.touches[0].clientX - rect.left;
+      mouseY = e.touches[0].clientY - rect.top;
+    }, { passive: true });
+
+    heroSection.addEventListener('touchend', () => {
       mouseX = -9999;
       mouseY = -9999;
     });

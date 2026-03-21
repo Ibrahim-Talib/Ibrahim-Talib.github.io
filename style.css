@@ -129,16 +129,27 @@ header.scrolled .navbar {
 }
 
 .hero-section {
-  position: relative; min-height: 100vh;
-  display: flex; align-items: center; justify-content: center;
-  padding: var(--space-xl) var(--space-lg); overflow: hidden;
+  position: relative;
+  min-height: 100vh;
+  min-height: 100svh; /* svh = small viewport height — excludes browser chrome */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--space-xl) var(--space-lg);
+  overflow: hidden;
 }
 
-/* Hero canvas — full background, mouse events pass through to section */
 .hero-canvas {
-  position: absolute; top: 0; left: 0;
-  width: 100%; height: 100%;
-  pointer-events: none; z-index: 0;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 0;
+  /* Force GPU layer — prevents iOS Safari z-index stacking bug */
+  transform: translateZ(0);
+  -webkit-transform: translateZ(0);
 }
 
 .hero-section::before {
@@ -155,7 +166,13 @@ header.scrolled .navbar {
   pointer-events: none; z-index: 1;
 }
 
-.hero-content { position: relative; z-index: 2; max-width: 750px; width: 100%; text-align: left; }
+.hero-content {
+  position: relative;
+  z-index: 3; /* bumped from 2 to 3 — safely above canvas on all mobile browsers */
+  max-width: 750px;
+  width: 100%;
+  text-align: left;
+}
 
 .hero-greeting {
   font-family: var(--font-mono); font-size: var(--fs-sm); color: var(--color-gold);
@@ -694,8 +711,14 @@ header.scrolled .navbar {
   .hamburger.active span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
   .hamburger.active span:nth-child(2) { opacity: 0; transform: scaleX(0); }
   .hamburger.active span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
-  .hero-section { padding: var(--space-lg) var(--space-sm); text-align: center; }
-  .hero-content { text-align: center; }
+  .hero-section {
+  padding: var(--space-lg) var(--space-sm);
+  padding-top: calc(var(--navbar-height) + var(--space-lg));
+  text-align: center;
+  min-height: 100svh;
+  align-items: center;
+  justify-content: center;
+}
   .hero-buttons { justify-content: center; }
   .hero-tagline { max-width: 100%; }
   .about-section .section-container { grid-template-columns: 1fr; }
@@ -709,7 +732,11 @@ header.scrolled .navbar {
 @media (max-width: 480px) {
   :root { --space-lg: 32px; --space-xl: 56px; }
   .navbar { padding: 0 var(--space-sm); }
-  .hero-section { padding: var(--space-md) var(--space-sm); }
+  .hero-section {
+  padding: var(--space-md) var(--space-sm);
+  padding-top: calc(var(--navbar-height) + var(--space-md));
+  min-height: 100svh;
+}
   .skills-grid { grid-template-columns: repeat(auto-fill, minmax(90px,1fr)); }
   .projects-grid { grid-template-columns: 1fr; }
   .about-info { grid-template-columns: 1fr; }
