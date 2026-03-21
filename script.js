@@ -6,6 +6,133 @@
 document.addEventListener('DOMContentLoaded', () => {
 
   // ============================================
+  // GLOBAL PARTICLE BACKGROUND
+  //
+  // How it works:
+  // 1. A fixed canvas sits behind the entire page
+  // 2. 55 nodes drift slowly — much sparser and slower
+  //    than the hero canvas so they don't compete
+  // 3. Connection lines only draw within 120px
+  //    at very low opacity — subtle, not distracting
+  // 4. Mouse attracts nodes gently (opposite of hero
+  //    which repels) — gives a different feel per section
+  // 5. Canvas resizes with the window automatically
+  // ============================================
+
+  const bgCanvas = document.getElementById('bg-canvas');
+
+  if (bgCanvas) {
+
+    const bgCtx = bgCanvas.getContext('2d');
+    let bgW, bgH, bgNodes;
+    let bgMouseX = -9999;
+    let bgMouseY = -9999;
+
+    const BG_NODE_COUNT  = 55;
+    const BG_MAX_DIST    = 120;
+    const BG_ATTRACT_DIST = 130;
+    const BG_ATTRACT_FORCE = 0.4;
+
+    const bgResize = () => {
+      bgW = bgCanvas.width  = window.innerWidth;
+      bgH = bgCanvas.height = window.innerHeight;
+      if (!bgNodes) bgInitNodes();
+    };
+
+    const bgInitNodes = () => {
+      bgNodes = Array.from({ length: BG_NODE_COUNT }, () => ({
+        x:       Math.random() * window.innerWidth,
+        y:       Math.random() * window.innerHeight,
+        vx:      (Math.random() - 0.5) * 0.25,  // much slower than hero
+        vy:      (Math.random() - 0.5) * 0.25,
+        r:       Math.random() * 1.4 + 0.4,
+        opacity: Math.random() * 0.3 + 0.1      // much dimmer than hero
+      }));
+    };
+
+    // Track mouse across entire document
+    document.addEventListener('mousemove', e => {
+      bgMouseX = e.clientX;
+      bgMouseY = e.clientY;
+    });
+
+    const bgDraw = () => {
+
+      bgCtx.clearRect(0, 0, bgW, bgH);
+
+      bgNodes.forEach(node => {
+
+        node.x += node.vx;
+        node.y += node.vy;
+
+        // Wrap around edges — nodes reappear on opposite side
+        // Softer than bouncing — more natural background feel
+        if (node.x < 0)    node.x = bgW;
+        if (node.x > bgW)  node.x = 0;
+        if (node.y < 0)    node.y = bgH;
+        if (node.y > bgH)  node.y = 0;
+
+        // Gentle attract toward mouse — opposite of hero repel
+        const dx   = bgMouseX - node.x;
+        const dy   = bgMouseY - node.y;
+        const dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < BG_ATTRACT_DIST && dist > 0) {
+          const force = (BG_ATTRACT_DIST - dist) / BG_ATTRACT_DIST;
+          node.x += (dx / dist) * BG_ATTRACT_FORCE * force;
+          node.y += (dy / dist) * BG_ATTRACT_FORCE * force;
+        }
+
+      });
+
+      // Connection lines — very subtle
+      for (let i = 0; i < bgNodes.length; i++) {
+        for (let j = i + 1; j < bgNodes.length; j++) {
+
+          const dx   = bgNodes[i].x - bgNodes[j].x;
+          const dy   = bgNodes[i].y - bgNodes[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < BG_MAX_DIST) {
+            const alpha = (1 - dist / BG_MAX_DIST) * 0.12 *
+              Math.min(bgNodes[i].opacity, bgNodes[j].opacity) * 3;
+
+            bgCtx.beginPath();
+            bgCtx.moveTo(bgNodes[i].x, bgNodes[i].y);
+            bgCtx.lineTo(bgNodes[j].x, bgNodes[j].y);
+            bgCtx.strokeStyle = `rgba(200, 168, 75, ${alpha})`;
+            bgCtx.lineWidth = 0.5;
+            bgCtx.stroke();
+          }
+        }
+      }
+
+      // Draw nodes
+      bgNodes.forEach(node => {
+
+        const dx       = node.x - bgMouseX;
+        const dy       = node.y - bgMouseY;
+        const nearMouse = Math.sqrt(dx * dx + dy * dy) < 100;
+
+        bgCtx.beginPath();
+        bgCtx.arc(node.x, node.y, node.r, 0, Math.PI * 2);
+        bgCtx.fillStyle = nearMouse
+          ? `rgba(56, 189, 248, ${node.opacity * 1.8})`
+          : `rgba(200, 168, 75, ${node.opacity})`;
+        bgCtx.fill();
+
+      });
+
+      requestAnimationFrame(bgDraw);
+    };
+
+    bgResize();
+    window.addEventListener('resize', bgResize);
+    bgDraw();
+
+  }
+
+  // ============================================
   // HAMBURGER MENU
   // ============================================
 
