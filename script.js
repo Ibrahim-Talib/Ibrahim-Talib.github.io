@@ -6,147 +6,34 @@
 document.addEventListener('DOMContentLoaded', () => {
 
   // ============================================
-  // GLOBAL PARTICLE BACKGROUND
+  // THEME TOGGLE
   //
   // How it works:
-  // 1. A fixed canvas sits behind the entire page
-  // 2. 55 nodes drift slowly — much sparser and slower
-  //    than the hero canvas so they don't compete
-  // 3. Connection lines only draw within 120px
-  //    at very low opacity — subtle, not distracting
-  // 4. Mouse attracts nodes gently (opposite of hero
-  //    which repels) — gives a different feel per section
-  // 5. Canvas resizes with the window automatically
+  // 1. On load, check localStorage for saved preference
+  //    — user's choice persists across page reloads
+  // 2. Clicking the button toggles 'light-theme' on <html>
+  // 3. CSS variables update automatically — every color
+  //    on the page changes via the cascade
+  // 4. Preference is saved to localStorage immediately
   // ============================================
 
-  const bgCanvas = document.getElementById('bg-canvas');
+  const themeToggle = document.getElementById('theme-toggle');
+  const htmlEl      = document.documentElement;
 
-  if (bgCanvas) {
+  // Restore saved theme on page load
+  const savedTheme = localStorage.getItem('portfolio-theme');
+  if (savedTheme === 'light') {
+    htmlEl.classList.add('light-theme');
+  }
 
-    const bgCtx = bgCanvas.getContext('2d');
-    let bgW, bgH, bgNodes;
-    let bgMouseX = -9999;
-    let bgMouseY = -9999;
+  if (themeToggle) {
+    themeToggle.addEventListener('click', () => {
+      htmlEl.classList.toggle('light-theme');
 
-    const BG_NODE_COUNT  = 55;
-    const BG_MAX_DIST    = 120;
-    const BG_ATTRACT_DIST = 130;
-    const BG_ATTRACT_FORCE = 0.4;
-
-    const bgResize = () => {
-      bgW = bgCanvas.width  = window.innerWidth;
-      bgH = bgCanvas.height = window.innerHeight;
-
-  // iOS Safari fix — document height instead of window height
-  // when address bar shows/hides it changes innerHeight but
-  // the canvas needs to cover the full document
-      bgCanvas.style.width  = '100%';
-      bgCanvas.style.height = '100%';
-
-    if (!bgNodes) bgInitNodes();
-    };
-
-    const bgInitNodes = () => {
-      bgNodes = Array.from({ length: BG_NODE_COUNT }, () => ({
-        x:       Math.random() * window.innerWidth,
-        y:       Math.random() * window.innerHeight,
-        vx:      (Math.random() - 0.5) * 0.25,  // much slower than hero
-        vy:      (Math.random() - 0.5) * 0.25,
-        r:       Math.random() * 1.4 + 0.4,
-        opacity: Math.random() * 0.3 + 0.1      // much dimmer than hero
-      }));
-    };
-
-    // Track mouse across entire document
-    document.addEventListener('mousemove', e => {
-      bgMouseX = e.clientX;
-      bgMouseY = e.clientY;
+      // Save preference — persists across reloads and sessions
+      const isLight = htmlEl.classList.contains('light-theme');
+      localStorage.setItem('portfolio-theme', isLight ? 'light' : 'dark');
     });
-
-    document.addEventListener('touchmove', e => {
-      bgMouseX = e.touches[0].clientX;
-      bgMouseY = e.touches[0].clientY;
-    }, { passive: true });
-
-    document.addEventListener('touchend', () => {
-      bgMouseX = -9999;
-      bgMouseY = -9999;
-    });
-
-    const bgDraw = () => {
-
-      bgCtx.clearRect(0, 0, bgW, bgH);
-
-      bgNodes.forEach(node => {
-
-        node.x += node.vx;
-        node.y += node.vy;
-
-        // Wrap around edges — nodes reappear on opposite side
-        // Softer than bouncing — more natural background feel
-        if (node.x < 0)    node.x = bgW;
-        if (node.x > bgW)  node.x = 0;
-        if (node.y < 0)    node.y = bgH;
-        if (node.y > bgH)  node.y = 0;
-
-        // Gentle attract toward mouse — opposite of hero repel
-        const dx   = bgMouseX - node.x;
-        const dy   = bgMouseY - node.y;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-
-        if (dist < BG_ATTRACT_DIST && dist > 0) {
-          const force = (BG_ATTRACT_DIST - dist) / BG_ATTRACT_DIST;
-          node.x += (dx / dist) * BG_ATTRACT_FORCE * force;
-          node.y += (dy / dist) * BG_ATTRACT_FORCE * force;
-        }
-
-      });
-
-      // Connection lines — very subtle
-      for (let i = 0; i < bgNodes.length; i++) {
-        for (let j = i + 1; j < bgNodes.length; j++) {
-
-          const dx   = bgNodes[i].x - bgNodes[j].x;
-          const dy   = bgNodes[i].y - bgNodes[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-
-          if (dist < BG_MAX_DIST) {
-            const alpha = (1 - dist / BG_MAX_DIST) * 0.12 *
-              Math.min(bgNodes[i].opacity, bgNodes[j].opacity) * 3;
-
-            bgCtx.beginPath();
-            bgCtx.moveTo(bgNodes[i].x, bgNodes[i].y);
-            bgCtx.lineTo(bgNodes[j].x, bgNodes[j].y);
-            bgCtx.strokeStyle = `rgba(200, 168, 75, ${alpha})`;
-            bgCtx.lineWidth = 0.5;
-            bgCtx.stroke();
-          }
-        }
-      }
-
-      // Draw nodes
-      bgNodes.forEach(node => {
-
-        const dx       = node.x - bgMouseX;
-        const dy       = node.y - bgMouseY;
-        const nearMouse = Math.sqrt(dx * dx + dy * dy) < 100;
-
-        bgCtx.beginPath();
-        bgCtx.arc(node.x, node.y, node.r, 0, Math.PI * 2);
-        bgCtx.fillStyle = nearMouse
-          ? `rgba(56, 189, 248, ${node.opacity * 1.8})`
-          : `rgba(200, 168, 75, ${node.opacity})`;
-        bgCtx.fill();
-
-      });
-
-      requestAnimationFrame(bgDraw);
-    };
-
-    bgResize();
-    window.addEventListener('resize', bgResize);
-    bgDraw();
-
   }
 
   // ============================================
@@ -281,243 +168,60 @@ const contactForm = document.querySelector('.contact-form');
 
   window.addEventListener('scroll', onScroll);
 
-  // ============================================
-  // HERO — FLOATING NETWORK CANVAS
-  //
-  // How it works:
-  // 1. A <canvas> fills the entire hero section
-  // 2. 70 nodes float around, bouncing off edges
-  // 3. Lines connect nodes within 140px of each other
-  //    — the closer the nodes, the more opaque the line
-  // 4. Mouse proximity makes nodes scatter (repel effect)
-  //    and turns nearby nodes cyan instead of gold
-  // 5. anime.js fades all nodes in on page load
-  // ============================================
-
-  const canvas      = document.getElementById('hero-canvas');
-  const heroSection = document.querySelector('.hero-section');
-
-  if (canvas && heroSection) {
-
-    const ctx = canvas.getContext('2d');
-
-    let W, H, nodes;
-    let mouseX = -9999;
-    let mouseY = -9999;
-
-    const NODE_COUNT  = 70;   // total floating nodes
-    const MAX_DIST    = 140;  // max distance for drawing a connection line
-    const REPEL_DIST  = 110;  // distance at which mouse starts pushing nodes
-    const REPEL_FORCE = 2.8;  // how hard the mouse pushes
-
-    // Resize canvas to match hero section dimensions
-    const resize = () => {
-  W = canvas.width  = heroSection.offsetWidth;
-  H = canvas.height = heroSection.offsetHeight;
-
-  // Only create new nodes on first load — not on every resize
-  // On mobile, scrolling triggers resize when the address bar hides
-  // Calling initNodes() would reset all opacities to 0 permanently
-  if (!nodes) {
-    initNodes();
-    anime({
-      targets: nodes,
-      opacity: (node) => Math.random() * 0.55 + 0.45,
-      duration: 2400,
-      delay: anime.stagger(25, { from: 'random' }),
-      easing: 'easeOutQuad'
-    });
-  }
-};
-
-    // Create all nodes with random positions, velocities, sizes
-    const initNodes = () => {
-      nodes = Array.from({ length: NODE_COUNT }, () => ({
-        x:       Math.random() * W,
-        y:       Math.random() * H,
-        vx:      (Math.random() - 0.5) * 0.45,  // horizontal speed
-        vy:      (Math.random() - 0.5) * 0.45,  // vertical speed
-        r:       Math.random() * 1.8 + 0.6,     // radius
-        opacity: 0                               // starts at 0 — anime.js fades in
-      }));
-    };
-
-    // Track mouse position relative to the hero section
-    // We listen on heroSection (not canvas) so clicks on buttons still work
-    heroSection.addEventListener('mousemove', e => {
-      const rect = heroSection.getBoundingClientRect();
-      mouseX = e.clientX - rect.left;
-      mouseY = e.clientY - rect.top;
-    });
-
-    heroSection.addEventListener('mouseleave', () => {
-      mouseX = -9999;
-      mouseY = -9999;
-    });
-
-    // ADD after heroSection.addEventListener('mouseleave', ...)
-
-    heroSection.addEventListener('touchmove', e => {
-      const rect = heroSection.getBoundingClientRect();
-      mouseX = e.touches[0].clientX - rect.left;
-      mouseY = e.touches[0].clientY - rect.top;
-    }, { passive: true });
-
-    heroSection.addEventListener('touchend', () => {
-      mouseX = -9999;
-      mouseY = -9999;
-    });
-
-    // Main animation loop — runs every frame via requestAnimationFrame
-    const drawFrame = () => {
-
-      ctx.clearRect(0, 0, W, H);
-
-      // Update each node's position
-      nodes.forEach(node => {
-
-        node.x += node.vx;
-        node.y += node.vy;
-
-        // Bounce off the edges
-        if (node.x < 0 || node.x > W) node.vx *= -1;
-        if (node.y < 0 || node.y > H) node.vy *= -1;
-
-        // Repel from mouse cursor
-        const dx   = node.x - mouseX;
-        const dy   = node.y - mouseY;
-        const dist = Math.sqrt(dx * dx + dy * dy);
-
-        if (dist < REPEL_DIST && dist > 0) {
-          // Push node away from cursor — stronger when closer
-          const force = (REPEL_DIST - dist) / REPEL_DIST;
-          node.x += (dx / dist) * REPEL_FORCE * force;
-          node.y += (dy / dist) * REPEL_FORCE * force;
-        }
-
-      });
-
-      // Draw connection lines between nearby nodes
-      for (let i = 0; i < nodes.length; i++) {
-        for (let j = i + 1; j < nodes.length; j++) {
-
-          const dx   = nodes[i].x - nodes[j].x;
-          const dy   = nodes[i].y - nodes[j].y;
-          const dist = Math.sqrt(dx * dx + dy * dy);
-
-          if (dist < MAX_DIST) {
-            // Closer nodes = more opaque line
-            const lineAlpha = (1 - dist / MAX_DIST) * 0.4 *
-              Math.min(nodes[i].opacity, nodes[j].opacity);
-
-            ctx.beginPath();
-            ctx.moveTo(nodes[i].x, nodes[i].y);
-            ctx.lineTo(nodes[j].x, nodes[j].y);
-            ctx.strokeStyle = `rgba(200, 168, 75, ${lineAlpha})`;
-            ctx.lineWidth = 0.6;
-            ctx.stroke();
-          }
-        }
-      }
-
-      // Draw each node as a filled circle
-      nodes.forEach(node => {
-
-        const dx       = node.x - mouseX;
-        const dy       = node.y - mouseY;
-        const nearMouse = Math.sqrt(dx * dx + dy * dy) < 100;
-
-        ctx.beginPath();
-        ctx.arc(node.x, node.y, node.r, 0, Math.PI * 2);
-
-        // Gold normally, cyan when near the cursor
-        ctx.fillStyle = nearMouse
-          ? `rgba(56, 189, 248, ${node.opacity})`
-          : `rgba(200, 168, 75, ${node.opacity})`;
-
-        ctx.fill();
-
-      });
-
-      requestAnimationFrame(drawFrame);
-    };
-
-    // Boot sequence
-    resize();
-    window.addEventListener('resize', resize);
-    drawFrame();
-
-  }
 
 // ============================================
-  // SKILL PILLS — RING OFFSET + HOVER COUNTER
+  // SKILLS — PROGRESS BAR ANIMATION
+  //
+  // How it works:
+  // 1. All bars start at width: 0
+  // 2. IntersectionObserver fires when skills section enters view
+  // 3. For each bar: set CSS width to data-pct value
+  //    CSS transition: width 1s ease handles the animation
+  // 4. Counter counts up simultaneously using anime.js
+  // 5. Each bar staggers by 100ms — cascade effect
   // ============================================
 
-  // Pre-calculate each pill's ring offset and store as CSS variable
-  // Circumference = 2 * π * 15 = 94.25
-  const CIRCUMFERENCE = 132;
-
-  document.querySelectorAll('.skill-pill').forEach(pill => {
-    const pct    = parseInt(pill.getAttribute('data-count')) || 0;
-    const offset = CIRCUMFERENCE - (CIRCUMFERENCE * pct / 100);
-    pill.style.setProperty('--ring-offset', offset);
-
-    const pctEl  = pill.querySelector('.ring-pct');
-    let animating = false;
-
-    // Count up on mouseenter
-    pill.addEventListener('mouseenter', () => {
-      if (animating) return;
-      animating = true;
-      const counter = { val: 0 };
-      anime({
-        targets:  counter,
-        val:      pct,
-        round:    1,
-        duration: 700,
-        delay:    150,
-        easing:   'easeOutExpo',
-        update: () => {
-          if (pctEl) pctEl.textContent = counter.val + '%';
-        },
-        complete: () => { animating = false; }
-      });
-    });
-
-    // Reset on mouseleave
-    pill.addEventListener('mouseleave', () => {
-      if (pctEl) pctEl.textContent = '0%';
-      animating = false;
-    });
-  });
-
-  // Skills section — cascade animation (pills replace old skill-cards)
   const skillsSection = document.querySelector('#skills');
-
-  document.querySelectorAll('.skill-pill').forEach(pill => {
-    pill.style.opacity   = '0';
-    pill.style.transform = 'translateY(30px) scale(0.9)';
-  });
 
   const skillsObserver = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        anime({
-          targets:    '#skills .skill-pill',
-          opacity:    [0, 1],
-          translateY: [30, 0],
-          scale:      [0.9, 1],
-          delay:      anime.stagger(55, { from: 'first' }),
-          easing:     'easeOutElastic(1, 0.7)',
-          duration:   800
+
+        document.querySelectorAll('.skill-bar-item').forEach((item, index) => {
+          const pct    = parseInt(item.getAttribute('data-pct')) || 0;
+          const fill   = item.querySelector('.skill-bar-fill');
+          const pctEl  = item.querySelector('.skill-bar-pct');
+
+          // Stagger each bar by 100ms
+          setTimeout(() => {
+
+            // Animate the bar width
+            if (fill) fill.style.width = pct + '%';
+
+            // Count up the percentage number
+            if (pctEl) {
+              const counter = { val: 0 };
+              anime({
+                targets:  counter,
+                val:      pct,
+                round:    1,
+                duration: 1000,
+                easing:   'easeOutExpo',
+                update: () => {
+                  pctEl.textContent = counter.val + '%';
+                }
+              });
+            }
+
+          }, index * 100);
         });
+
         skillsObserver.unobserve(entry.target);
       }
     });
-  }, { threshold: 0.08 });
+  }, { threshold: 0.1 });
 
   if (skillsSection) skillsObserver.observe(skillsSection);
-
   // ============================================
   // TYPING ANIMATION — HERO TITLE
   //

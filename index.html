@@ -10,7 +10,6 @@
   </head>
 
   <body>
-    <canvas id="bg-canvas"></canvas>
  
     <!-- ============================================
          NAVIGATION BAR
@@ -26,6 +25,10 @@
           <li><a href="#projects">Projects</a></li>
           <li><a href="#contact">Contact</a></li>
         </ul>
+        <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
+          <span class="theme-icon theme-icon--moon">🌙</span>
+          <span class="theme-icon theme-icon--sun">☀️</span>
+        </button>
         <div class="hamburger">
           <span></span>
           <span></span>
@@ -41,8 +44,6 @@
       ============================================ -->
       <section id="hero" class="hero-section">
 
-        <!-- Network canvas — renders behind all hero content -->
-        <canvas id="hero-canvas" class="hero-canvas"></canvas>
 
         <div class="hero-content">
           <p class="hero-greeting">Hi there, I'm</p>
@@ -122,188 +123,182 @@
            SKILLS SECTION
       ============================================ -->
       <section id="skills" class="skills-section">
-        <div class="section-container">
+        <section id="skills" class="skills-section">
+  <div class="section-container">
 
-          <p class="section-label">What I Work With</p>
-          <h2 class="section-heading">My Skills</h2>
+    <p class="section-label">What I Work With</p>
+    <h2 class="section-heading">My Skills</h2>
 
-          <!-- Languages -->
-          <div class="skills-category reveal">
-            <h3 class="category-title">Languages</h3>
-            <div class="skills-row">
+    <div class="skills-cat-grid">
 
-              <div class="skill-pill" data-count="60">
-                <div class="pill-top">
-                  <span class="pill-icon">
-                    <i class="devicon-cplusplus-plain colored"></i>
-                  </span>
-                  <span class="pill-name">C/C++</span>
-                </div>
-                <div class="pill-slide">
-                  <div class="ring-wrap">
-                    <svg width="52" height="52" viewBox="0 0 52 52">
-                      <circle class="ring-bg" cx="26" cy="26" r="21"/>
-                      <circle class="ring-fill" cx="26" cy="26" r="21"/>
-                    </svg>
-                    <div class="ring-pct">0%</div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="skill-pill" data-count="30">
-                <div class="pill-top">
-                  <span class="pill-icon"><i class="devicon-python-plain colored"></i></span>
-                  <span class="pill-name">Python</span>
-                </div>
-                <div class="pill-slide">
-                  <div class="ring-wrap">
-                    <svg width="52" height="52" viewBox="0 0 52 52">
-                      <circle class="ring-bg" cx="26" cy="26" r="21"/>
-                      <circle class="ring-fill" cx="26" cy="26" r="21"/>
-                    </svg>
-                    <div class="ring-pct">0%</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Web Development -->
-          <div class="skills-category reveal">
-            <h3 class="category-title">
-              Web Development
-              <span class="learning-badge">Learning</span>
-            </h3>
-            <div class="skills-row">
-
-              <div class="skill-pill" data-count="30">
-                <div class="pill-top">
-                  <span class="pill-icon"><i class="devicon-html5-plain colored"></i></span>
-                  <span class="pill-name">HTML5</span>
-                </div>
-                <div class="pill-slide">
-                  <div class="ring-wrap">
-                    <svg width="52" height="52" viewBox="0 0 52 52">
-                      <circle class="ring-bg" cx="26" cy="26" r="21"/>
-                      <circle class="ring-fill" cx="26" cy="26" r="21"/>
-                    </svg>
-                    <div class="ring-pct">0%</div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="skill-pill" data-count="20">
-                <div class="pill-top">
-                  <span class="pill-icon"><i class="devicon-css3-plain colored"></i></span>
-                  <span class="pill-name">CSS3</span>
-                </div>
-                <div class="pill-slide">
-                  <div class="ring-wrap">
-                    <svg width="52" height="52" viewBox="0 0 52 52">
-                      <circle class="ring-bg" cx="26" cy="26" r="21"/>
-                      <circle class="ring-fill" cx="26" cy="26" r="21"/>
-                    </svg>
-                    <div class="ring-pct">0%</div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="skill-pill" data-count="10">
-                <div class="pill-top">
-                  <span class="pill-icon"><i class="devicon-javascript-plain colored"></i></span>
-                  <span class="pill-name">JavaScript</span>
-                </div>
-                <div class="pill-slide">
-                  <div class="ring-wrap">
-                    <svg width="52" height="52" viewBox="0 0 52 52">
-                      <circle class="ring-bg" cx="26" cy="26" r="21"/>
-                      <circle class="ring-fill" cx="26" cy="26" r="21"/>
-                    </svg>
-                    <div class="ring-pct">0%</div>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-          </div>
-
-          <!-- Tools & Systems -->
-          <div class="skills-category reveal">
-            <h3 class="category-title">Tools &amp; Systems</h3>
-            <div class="skills-row">
-
-              <div class="skill-pill" data-count="25">
-                <div class="pill-top">
-                  <span class="pill-icon"><i class="devicon-git-plain colored"></i></span>
-                  <span class="pill-name">Git</span>
-                </div>
-                <div class="pill-slide">
-                  <div class="ring-wrap">
-                    <svg width="52" height="52" viewBox="0 0 52 52">
-                      <circle class="ring-bg" cx="26" cy="26" r="21"/>
-                      <circle class="ring-fill" cx="26" cy="26" r="21"/>
-                    </svg>
-                    <div class="ring-pct">0%</div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="skill-pill" data-count="40">
-                <div class="pill-top">
-                  <span class="pill-icon"><i class="devicon-github-original"></i></span>
-                  <span class="pill-name">GitHub</span>
-                </div>
-                <div class="pill-slide">
-                  <div class="ring-wrap">
-                    <svg width="52" height="52" viewBox="0 0 52 52">
-                      <circle class="ring-bg" cx="26" cy="26" r="21"/>
-                      <circle class="ring-fill" cx="26" cy="26" r="21"/>
-                    </svg>
-                    <div class="ring-pct">0%</div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="skill-pill" data-count="20">
-                <div class="pill-top">
-                  <span class="pill-icon"><i class="devicon-ubuntu-plain colored"></i></span>
-                  <span class="pill-name">Ubuntu</span>
-                </div>
-                <div class="pill-slide">
-                  <div class="ring-wrap">
-                    <svg width="52" height="52" viewBox="0 0 52 52">
-                      <circle class="ring-bg" cx="26" cy="26" r="21"/>
-                      <circle class="ring-fill" cx="26" cy="26" r="21"/>
-                    </svg>
-                    <div class="ring-pct">0%</div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="skill-pill" data-count="50">
-                <div class="pill-top">
-                  <span class="pill-icon">
-                    <svg viewBox="0 0 24 24" width="28" height="28" fill="#607078">
-                      <path d="M2 6h20v12H2z M6 10h12M6 14h12M10 6v12"/>
-                    </svg>
-                  </span>
-                  <span class="pill-name">VMware</span>
-                </div>
-                <div class="pill-slide">
-                  <div class="ring-wrap">
-                    <svg width="52" height="52" viewBox="0 0 52 52">
-                      <circle class="ring-bg" cx="26" cy="26" r="21"/>
-                      <circle class="ring-fill" cx="26" cy="26" r="21"/>
-                    </svg>
-                    <div class="ring-pct">0%</div>
-                  </div>
-                </div>
-              </div>
-
-            </div>
-          </div>
+      <!-- Languages -->
+      <div class="skills-cat-card reveal">
+        <div class="skills-cat-header">
+          <span class="skills-cat-icon">⚙️</span>
+          <span class="skills-cat-name">Languages</span>
         </div>
-      </section>
+        <div class="skills-bar-list">
+
+          <div class="skill-bar-item" data-pct="82">
+            <div class="skill-bar-meta">
+              <span class="skill-bar-name">
+                <i class="devicon-cplusplus-plain colored"></i>
+                C/C++
+              </span>
+              <span class="skill-bar-pct">0%</span>
+            </div>
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill"></div>
+            </div>
+          </div>
+
+          <div class="skill-bar-item" data-pct="55">
+            <div class="skill-bar-meta">
+              <span class="skill-bar-name">
+                <i class="devicon-python-plain colored"></i>
+                Python
+              </span>
+              <span class="skill-bar-pct">0%</span>
+            </div>
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill"></div>
+            </div>
+          </div>
+
+          <div class="skill-bar-item" data-pct="70">
+            <div class="skill-bar-meta">
+              <span class="skill-bar-name">
+                <i class="devicon-postgresql-plain colored"></i>
+                SQL
+              </span>
+              <span class="skill-bar-pct">0%</span>
+            </div>
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill"></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Web Development -->
+      <div class="skills-cat-card reveal">
+        <div class="skills-cat-header">
+          <span class="skills-cat-icon">🌐</span>
+          <span class="skills-cat-name">
+            Web Development
+            <span class="learning-badge">Learning</span>
+          </span>
+        </div>
+        <div class="skills-bar-list">
+
+          <div class="skill-bar-item" data-pct="60">
+            <div class="skill-bar-meta">
+              <span class="skill-bar-name">
+                <i class="devicon-html5-plain colored"></i>
+                HTML5
+              </span>
+              <span class="skill-bar-pct">0%</span>
+            </div>
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill"></div>
+            </div>
+          </div>
+
+          <div class="skill-bar-item" data-pct="55">
+            <div class="skill-bar-meta">
+              <span class="skill-bar-name">
+                <i class="devicon-css3-plain colored"></i>
+                CSS3
+              </span>
+              <span class="skill-bar-pct">0%</span>
+            </div>
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill"></div>
+            </div>
+          </div>
+
+          <div class="skill-bar-item" data-pct="40">
+            <div class="skill-bar-meta">
+              <span class="skill-bar-name">
+                <i class="devicon-javascript-plain colored"></i>
+                JavaScript
+              </span>
+              <span class="skill-bar-pct">0%</span>
+            </div>
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill"></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Tools & Systems — full width -->
+      <div class="skills-cat-card skills-cat-card--wide reveal">
+        <div class="skills-cat-header">
+          <span class="skills-cat-icon">🔧</span>
+          <span class="skills-cat-name">Tools &amp; Systems</span>
+        </div>
+        <div class="skills-bar-list skills-bar-list--grid">
+
+          <div class="skill-bar-item" data-pct="65">
+            <div class="skill-bar-meta">
+              <span class="skill-bar-name">
+                <i class="devicon-git-plain colored"></i>
+                Git
+              </span>
+              <span class="skill-bar-pct">0%</span>
+            </div>
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill"></div>
+            </div>
+          </div>
+
+          <div class="skill-bar-item" data-pct="65">
+            <div class="skill-bar-meta">
+              <span class="skill-bar-name">
+                <i class="devicon-github-original"></i>
+                GitHub
+              </span>
+              <span class="skill-bar-pct">0%</span>
+            </div>
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill"></div>
+            </div>
+          </div>
+
+          <div class="skill-bar-item" data-pct="60">
+            <div class="skill-bar-meta">
+              <span class="skill-bar-name">
+                <i class="devicon-linux-plain colored"></i>
+                Linux / Ubuntu
+              </span>
+              <span class="skill-bar-pct">0%</span>
+            </div>
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill"></div>
+            </div>
+          </div>
+
+          <div class="skill-bar-item" data-pct="50">
+            <div class="skill-bar-meta">
+              <span class="skill-bar-name">
+                🖥️ VMware
+              </span>
+              <span class="skill-bar-pct">0%</span>
+            </div>
+            <div class="skill-bar-track">
+              <div class="skill-bar-fill"></div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
 
       <!-- ============================================
            PROJECTS SECTION
