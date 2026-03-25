@@ -1367,3 +1367,23 @@ html.light-theme .contact-section {
 .reveal-delay-2 { transition-delay: 0.2s; }
 .reveal-delay-3 { transition-delay: 0.3s; }
 .reveal-delay-4 { transition-delay: 0.4s; }
+
+@media (max-width: 768px) {
+  .hero-section {
+    /* Instead of perfect centering, we align to the top and add padding */
+    justify-content: flex-start; 
+    padding-top: calc(var(--navbar-height) + 40px); /* Adjust '40px' to your liking */
+    min-height: 85dvh; /* Reducing height slightly prevents that "bottom-heavy" look */
+  }
+
+  .hero-content {
+    /* Nudge the whole block up slightly if it still feels too low */
+    margin-top: -20px; 
+  }
+
+  .hero-name {
+    /* Reducing the line-height helps tighten the gap between the name and the title */
+    line-height: 1.1;
+    margin-bottom: 10px;
+  }
+}
