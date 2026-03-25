@@ -21,7 +21,7 @@
   --color-bg-surface-2:  #111111;
 
   /* Accent */
-  --color-accent:        #b2d600;
+  --color-accent:        #59d600;
   --color-accent-dim:    rgba(189, 214, 0, 0.12);
   --color-accent-border: rgba(189, 214, 0, 0.28);
   --color-accent-glow:   rgba(189, 214, 0, 0.08);
@@ -133,7 +133,7 @@ html.light-theme {
   --color-bg-surface-2:  #EAEAEE;
 
   /* Accent */
-  --color-accent:        #9104e8;
+  --color-accent:        #9c11fe;
   --color-accent-dim:    rgba(157, 0, 255, 0.08);
   --color-accent-border: rgba(157, 0, 255, 0.28);
   --color-accent-glow:   rgba(157, 0, 255, 0.06);
@@ -516,10 +516,13 @@ html.light-theme .footer {
 
 .hero-content {
   position: relative;
-  z-index: 3; /* bumped from 2 to 3 — safely above canvas on all mobile browsers */
-  max-width: 750px;
+  z-index: 3;
+  max-width: 850px; /* Slightly wider for better centering balance */
   width: 100%;
-  text-align: left;
+  text-align: center; /* This centers the text */
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* This centers the flex items (buttons/text) */
 }
 
 .hero-greeting {
@@ -531,7 +534,7 @@ html.light-theme .footer {
 .hero-name {
   font-family: var(--font-heading);
   font-size: clamp(40px,7vw,72px); font-weight: var(--fw-bold);
-  color: var(--color-text-primary); letter-spacing: -0.03em; line-height: 1.05;
+  color: var(--color-text-primary); letter-spacing: -0.01em; line-height: 1.05;
   margin-bottom: var(--space-xs);
   animation: fadeUp 0.6s ease forwards; animation-delay: 0.2s; opacity: 0;
 }
@@ -546,24 +549,45 @@ html.light-theme .footer {
 .title-dynamic { color: var(--color-cyan); font-weight: var(--fw-medium); }
 
 .hero-tagline {
-  font-size: var(--fs-base); color: var(--color-text-muted);
-  line-height: 1.8; max-width: 520px; margin-bottom: var(--space-lg);
-  animation: fadeUp 0.6s ease forwards; animation-delay: 0.4s; opacity: 0;
+  font-size: var(--fs-base);
+  color: var(--color-text-muted);
+  line-height: 1.8;
+  max-width: 600px; /* Increased to look better when centered */
+  margin: 0 auto var(--space-lg); /* '0 auto' centers the block itself */
+  animation: fadeUp 0.6s ease forwards;
+  animation-delay: 0.4s;
+  opacity: 0;
 }
 
 .hero-buttons {
-  display: flex; align-items: center; gap: var(--space-sm);
-  animation: fadeUp 0.6s ease forwards; animation-delay: 0.5s; opacity: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Centers the buttons horizontally */
+  gap: var(--space-sm);
+  animation: fadeUp 0.6s ease forwards;
+  animation-delay: 0.5s;
+  opacity: 0;
 }
 
 /* BUTTONS */
+/* Update your existing .btn class */
 .btn {
-  display: inline-flex; align-items: center; justify-content: center;
-  padding: 12px 28px; font-family: var(--font-main); font-size: var(--fs-sm);
-  font-weight: var(--fw-medium); letter-spacing: 0.04em;
-  border-radius: var(--radius-sm); text-decoration: none;
-  cursor: pointer; border: none; transition: var(--transition-smooth);
-  position: relative; overflow: hidden;
+  display: inline-flex; 
+  align-items: center; 
+  justify-content: center;
+  padding: 10px 28px; /* Slightly more padding looks better with squircles */
+  font-family: var(--font-main); 
+  font-size: var(--fs-sm);
+  font-weight: 500; 
+  letter-spacing: 0.04em;
+  border-radius: 999px;
+  
+  text-decoration: none;
+  cursor: pointer; 
+  border: none; 
+  transition: var(--transition-smooth);
+  position: relative; 
+  overflow: hidden;
 }
 
 .btn-primary { background: var(--color-gold); color: #0A0A12; }
