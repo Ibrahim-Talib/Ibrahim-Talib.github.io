@@ -549,7 +549,7 @@ html.light-theme .footer {
 
 .hero-name {
   font-family: var(--font-heading);
-  font-size: clamp(32px,10vw,72px); font-weight: var(--fw-bold);
+  font-size: clamp(44px, 8vw, 80px); font-weight: var(--fw-bold);
   color: var(--color-text-primary); letter-spacing: -0.01em; line-height: 1.1;
   margin-bottom: var(--space-sm);
   animation: fadeUp 0.6s ease forwards; animation-delay: 0.2s; opacity: 0;
@@ -635,7 +635,7 @@ html.light-theme .footer {
 
 .section-heading {
   font-family: var(--font-heading);
-  font-size: clamp(28px,4vw,42px); font-weight: var(--fw-bold);
+  font-size: clamp(32px, 4.5vw, 48px); font-weight: var(--fw-bold);
   color: var(--color-text-primary); letter-spacing: -0.02em;
   line-height: 1.1; margin-bottom: var(--space-lg);
 }
@@ -1385,6 +1385,41 @@ html.light-theme .contact-section {
 .reveal-delay-4 { transition-delay: 0.4s; }
 
 @media (max-width: 768px) {
+
+  .navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  /* Hide toggle from navbar-right on mobile — it lives in sidebar */
+  .navbar-right .theme-toggle {
+    display: none;
+  }
+
+  .nav-theme-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: auto;       /* pushes it to the bottom of the sidebar */
+    padding-top: var(--space-sm);
+    border-top: 0.5px solid var(--color-border);
+    width: 100%;
+  }
+
+  .nav-theme-label {
+    font-size: var(--fs-sm);
+    color: var(--color-text-muted);
+    font-weight: var(--fw-medium);
+  }
+
+  /* Sidebar needs flex-column to push toggle to bottom */
+  .nav-links {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+
   .hero-section {
     /* Instead of perfect centering, we align to the top and add padding */
     justify-content: flex-start; 
@@ -1403,3 +1438,4 @@ html.light-theme .contact-section {
     margin-bottom: 10px;
   }
 }
+
