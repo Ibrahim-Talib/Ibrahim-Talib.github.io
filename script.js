@@ -22,7 +22,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Restore saved theme on page load
   const savedTheme = localStorage.getItem('portfolio-theme');
-  if (savedTheme === 'light') {
+  if (savedTheme === 'dark') {
+    htmlEl.classList.remove('light-theme');
+  } else if (!savedTheme) {
+    // No preference saved yet — keep light-theme from HTML attribute
     htmlEl.classList.add('light-theme');
   }
 
