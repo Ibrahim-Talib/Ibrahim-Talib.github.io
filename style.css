@@ -1391,13 +1391,17 @@ html.light-theme .form-group textarea:focus {
   .hamburger.active span:nth-child(2) { opacity: 0; transform: scaleX(0); }
   .hamburger.active span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
 
-  .hero-section {
-    padding: var(--space-lg) var(--space-sm);
-    padding-top: calc(var(--navbar-height) + var(--space-lg));
-    min-height: 100svh;
-    align-items: center;
-    justify-content: center;
-  }
+ .hero-section {
+  padding: var(--space-lg) var(--space-sm);
+  padding-top: calc(var(--navbar-height) + var(--space-lg));
+  min-height: 100svh;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-content {
+  margin-top: -60px;
+}
 
   .hero-buttons { justify-content: center; }
   .hero-tagline { max-width: 100%; }
