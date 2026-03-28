@@ -1,4 +1,5 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&display=swap');
 @import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap');
 
 @font-face {
@@ -44,8 +45,8 @@
     radial-gradient(ellipse 80% 60% at 20% 10%, rgba(189,214,0,0.05) 0%, transparent 60%),
     radial-gradient(ellipse 60% 50% at 80% 80%, rgba(56,189,248,0.04) 0%, transparent 60%);
 
-  --font-main:    'Montserrat', sans-serif;
-  --font-heading: 'Rosnoc', 'Montserrat', sans-serif;
+  --font-main:    'Lato', sans-serif;
+  --font-heading: 'Playfair Display', Georgia, serif;
   --font-mono:    'JetBrains Mono', monospace;
 
   --fs-xs:   12px;
@@ -57,6 +58,7 @@
   --fs-2xl:  48px;
   --fs-3xl:  64px;
 
+  --fw-light:    300;
   --fw-regular:  400;
   --fw-medium:   500;
   --fw-semibold: 600;
@@ -97,38 +99,100 @@
    DAY THEME — OVERRIDE
 ============================================ */
 html.light-theme {
-  --navbar-bg:             rgba(255, 255, 255, 0.88);
+  --navbar-bg: rgba(255, 255, 255, 0.90);
 
-  --color-bg-primary:      #FFFFFF;
-  --color-bg-surface:      #F4F4F6;
-  --color-bg-surface-2:    #EAEAEE;
+  /* Backgrounds */
+  --color-bg-primary:    #FFFFFF;
+  --color-bg-surface:    #F8F6F3;
+  --color-bg-surface-2:  #F0EDE8;
 
-  --color-accent:          #9D00FF;
-  --color-accent-dim:      rgba(157, 0, 255, 0.08);
-  --color-accent-border:   rgba(157, 0, 255, 0.28);
-  --color-accent-glow:     rgba(157, 0, 255, 0.06);
+  /* Accent — Muted Champagne Gold */
+  --color-accent:        #C5A880;
+  --color-accent-dim:    rgba(197, 168, 128, 0.10);
+  --color-accent-border: rgba(197, 168, 128, 0.30);
+  --color-accent-glow:   rgba(197, 168, 128, 0.12);
 
-  --color-secondary:        #0099FF;
-  --color-secondary-dim:    rgba(0, 153, 255, 0.10);
-  --color-secondary-border: rgba(0, 153, 255, 0.25);
+  /* Secondary — warm deep tone */
+  --color-secondary:        #8C7B6B;
+  --color-secondary-dim:    rgba(140, 123, 107, 0.10);
+  --color-secondary-border: rgba(140, 123, 107, 0.25);
 
-  --color-text-primary:    #0A0A0A;
-  --color-text-secondary:  #444444;
-  --color-text-muted:      #888888;
+  /* Text */
+  --color-text-primary:   #1A1A1A;
+  --color-text-secondary: #737373;
+  --color-text-muted:     #A8A8A8;
 
-  --color-border:          rgba(0, 0, 0, 0.08);
-  --color-border-bright:   rgba(0, 0, 0, 0.16);
+  /* Borders */
+  --color-border:        rgba(26, 26, 26, 0.08);
+  --color-border-bright: rgba(26, 26, 26, 0.16);
 
-  --glass-bg:              rgba(0, 0, 0, 0.03);
-  --glass-blur:            blur(20px) saturate(180%);
-  --glass-border:          0.5px solid rgba(0, 0, 0, 0.10);
-  --glass-border-top:      0.5px solid rgba(0, 0, 0, 0.16);
+  /* Glass — warm tinted for white background */
+  --glass-bg:         rgba(255, 255, 255, 0.70);
+  --glass-blur:       blur(20px) saturate(160%);
+  --glass-border:     0.5px solid rgba(197, 168, 128, 0.18);
+  --glass-border-top: 0.5px solid rgba(197, 168, 128, 0.30);
 
+  /* Gradient background */
   --gradient-bg:
-    radial-gradient(ellipse 80% 60% at 20% 10%, rgba(157,0,255,0.06) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 50% at 80% 80%, rgba(0,153,255,0.04) 0%, transparent 60%);
+    radial-gradient(ellipse 70% 50% at 15% 10%, rgba(197,168,128,0.06) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 85% 85%, rgba(140,123,107,0.05) 0%, transparent 60%);
 
-  --shadow-card: 0 4px 24px rgba(0, 0, 0, 0.08);
+  /* Typography */
+  --font-main:    'Lato', sans-serif;
+  --font-heading: 'Playfair Display', Georgia, serif;
+  --font-mono:    'JetBrains Mono', monospace;
+
+  /* Font sizes */
+  --fs-xs:   12px;
+  --fs-sm:   14px;
+  --fs-base: 16px;
+  --fs-md:   19px;
+  --fs-lg:   24px;
+  --fs-xl:   32px;
+  --fs-2xl:  48px;
+  --fs-3xl:  64px;
+
+  /* Font weights */
+  --fw-light:    300;
+  --fw-regular:  400;
+  --fw-medium:   500;
+  --fw-semibold: 600;
+  --fw-bold:     700;
+
+  /* Spacing */
+  --space-xs:  8px;
+  --space-sm:  16px;
+  --space-md:  24px;
+  --space-lg:  48px;
+  --space-xl:  80px;
+  --space-2xl: 120px;
+
+  /* Layout */
+  --max-width:     1100px;
+  --navbar-height: 72px;
+
+  /* Radius */
+  --radius-sm:   4px;
+  --radius-md:   10px;
+  --radius-lg:   14px;
+  --radius-full: 999px;
+
+  /* Transitions */
+  --transition-fast:   all 0.2s ease;
+  --transition-smooth: all 0.3s ease;
+
+  /* Shadows */
+  --shadow-accent: 0 4px 24px rgba(197, 168, 128, 0.15);
+  --shadow-card:   0 2px 20px rgba(26, 26, 26, 0.06);
+
+  /* Legacy aliases */
+  --color-gold:        var(--color-accent);
+  --color-gold-dim:    var(--color-accent-dim);
+  --color-gold-border: var(--color-accent-border);
+  --color-cyan:        var(--color-secondary);
+  --color-cyan-dim:    var(--color-secondary-dim);
+  --color-cyan-border: var(--color-secondary-border);
+  --shadow-gold:       var(--shadow-accent);
 }
 
 /* ============================================
@@ -151,7 +215,7 @@ html {
 body {
   font-family: var(--font-main);
   font-size: var(--fs-base);
-  font-weight: var(--fw-regular);
+  font-weight: var(--fw-light);
   line-height: 1.7;
   background-color: var(--color-bg-primary);
   background-image: var(--gradient-bg);
@@ -449,7 +513,7 @@ html.light-theme .theme-icon--sun  { opacity: 1; transform: rotate(0deg) scale(1
   font-size: clamp(44px, 8vw, 80px);
   font-weight: var(--fw-bold);
   color: var(--color-text-primary);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
   line-height: 1.1;
   margin-bottom: var(--space-sm);
   animation: fadeUp 0.6s ease forwards;
