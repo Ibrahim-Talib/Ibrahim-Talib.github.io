@@ -1400,7 +1400,7 @@ html.light-theme .form-group textarea:focus {
 }
 
 .hero-content {
-  margin-top: -80px;
+  transform: translateY(-60px);
 }
 
   .hero-buttons { justify-content: center; }
