@@ -20,7 +20,7 @@
   --color-bg-surface:      #0A0A0A;
   --color-bg-surface-2:    #111111;
 
-  --color-accent:          #BDD600;
+  --color-accent:          #eef1b7; /*BDD600*/
   --color-accent-dim:      rgba(189, 214, 0, 0.12);
   --color-accent-border:   rgba(189, 214, 0, 0.28);
   --color-accent-glow:     rgba(189, 214, 0, 0.08);
