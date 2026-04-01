@@ -236,3 +236,91 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
 });
+
+// ============================================
+//  PROJECTS CAROUSEL — MOBILE
+// ============================================
+(function () {
+  function initCarousel() {
+    if (window.innerWidth > 600) return;
+
+    const grid = document.querySelector('.projects-grid');
+    if (!grid) return;
+
+    const cards = Array.from(grid.querySelectorAll('.project-card'));
+    if (cards.length === 0) return;
+
+    // Remove existing controls to avoid duplicates
+    document.querySelector('.carousel-dots')?.remove();
+    document.querySelector('.carousel-nav')?.remove();
+
+    // Build dots
+    const dotsWrap = document.createElement('div');
+    dotsWrap.className = 'carousel-dots';
+    cards.forEach((_, i) => {
+      const dot = document.createElement('div');
+      dot.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+      dot.addEventListener('click', () => goTo(i));
+      dotsWrap.appendChild(dot);
+    });
+
+    // Build arrow nav
+    const nav = document.createElement('div');
+    nav.className = 'carousel-nav';
+
+    const prevBtn = document.createElement('button');
+    prevBtn.className = 'carousel-arrow';
+    prevBtn.innerHTML = '&#8592;';
+    prevBtn.addEventListener('click', () => goTo(current - 1));
+
+    const nextBtn = document.createElement('button');
+    nextBtn.className = 'carousel-arrow';
+    nextBtn.innerHTML = '&#8594;';
+    nextBtn.addEventListener('click', () => goTo(current + 1));
+
+    nav.appendChild(prevBtn);
+    nav.appendChild(dotsWrap);
+    nav.appendChild(nextBtn);
+
+    grid.insertAdjacentElement('afterend', nav);
+
+    let current = 0;
+    let timer;
+
+    function goTo(index) {
+      cards[current].classList.remove('carousel-active');
+      dotsWrap.children[current].classList.remove('active');
+      current = (index + cards.length) % cards.length;
+      cards[current].classList.add('carousel-active');
+      dotsWrap.children[current].classList.add('active');
+      resetTimer();
+    }
+
+    function resetTimer() {
+      clearInterval(timer);
+      timer = setInterval(() => goTo(current + 1), 4000);
+    }
+
+    cards.forEach(c => c.classList.remove('carousel-active'));
+    cards[0].classList.add('carousel-active');
+    resetTimer();
+  }
+
+  initCarousel();
+
+  let wasCarousel = window.innerWidth <= 600;
+  window.addEventListener('resize', () => {
+    const isCarousel = window.innerWidth <= 600;
+    if (isCarousel !== wasCarousel) {
+      wasCarousel = isCarousel;
+      if (!isCarousel) {
+        document.querySelectorAll('.projects-grid .project-card')
+          .forEach(c => c.classList.remove('carousel-active'));
+        document.querySelector('.carousel-dots')?.remove();
+        document.querySelector('.carousel-nav')?.remove();
+      } else {
+        initCarousel();
+      }
+    }
+  });
+})();
