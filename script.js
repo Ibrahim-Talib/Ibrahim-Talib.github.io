@@ -1,7 +1,3 @@
-// ============================================
-// PORTFOLIO — script.js
-// Ibrahim Talib
-// ============================================
 
 document.addEventListener('DOMContentLoaded', () => {
 
@@ -241,6 +237,7 @@ document.addEventListener('DOMContentLoaded', () => {
 //  PROJECTS CAROUSEL — MOBILE
 // ============================================
 (function () {
+
   function initCarousel() {
     if (window.innerWidth > 600) return;
 
@@ -250,11 +247,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const cards = Array.from(grid.querySelectorAll('.project-card'));
     if (cards.length === 0) return;
 
-    // Remove existing controls to avoid duplicates
+    // Clean up any previous instance
     document.querySelector('.carousel-dots')?.remove();
     document.querySelector('.carousel-nav')?.remove();
+    grid.classList.remove('is-carousel');
+    grid.style.minHeight = '';
+    cards.forEach(c => {
+      c.classList.remove('carousel-active', 'carousel-exit');
+    });
 
-    // Build dots
+    // ── Measure natural heights BEFORE carousel CSS activates ──
+    // At this point cards are still in normal flow, so offsetHeight is real.
+    const maxH = Math.max(...cards.map(c => c.offsetHeight));
+    grid.style.minHeight = maxH + 'px';
+
+    // NOW activate carousel CSS (absolute positioning, etc.)
+    grid.classList.add('is-carousel');
+
+    // ── Build dots ──
     const dotsWrap = document.createElement('div');
     dotsWrap.className = 'carousel-dots';
     cards.forEach((_, i) => {
@@ -264,7 +274,7 @@ document.addEventListener('DOMContentLoaded', () => {
       dotsWrap.appendChild(dot);
     });
 
-    // Build arrow nav
+    // ── Build arrow nav ──
     const nav = document.createElement('div');
     nav.className = 'carousel-nav';
 
@@ -281,18 +291,39 @@ document.addEventListener('DOMContentLoaded', () => {
     nav.appendChild(prevBtn);
     nav.appendChild(dotsWrap);
     nav.appendChild(nextBtn);
-
     grid.insertAdjacentElement('afterend', nav);
 
     let current = 0;
     let timer;
+    let busy = false;
 
     function goTo(index) {
-      cards[current].classList.remove('carousel-active');
+      if (busy) return;
+      const next = (index + cards.length) % cards.length;
+      if (next === current) return;
+
+      busy = true;
+
+      // Mark current card as exiting
+      const leaving = cards[current];
+      leaving.classList.remove('carousel-active');
+      leaving.classList.add('carousel-exit');
+
+      // Update dots
       dotsWrap.children[current].classList.remove('active');
-      current = (index + cards.length) % cards.length;
+      dotsWrap.children[next].classList.add('active');
+
+      current = next;
+
+      // Bring in new card
       cards[current].classList.add('carousel-active');
-      dotsWrap.children[current].classList.add('active');
+
+      // Clean up exit class after transition completes
+      setTimeout(() => {
+        leaving.classList.remove('carousel-exit');
+        busy = false;
+      }, 420);
+
       resetTimer();
     }
 
@@ -301,26 +332,35 @@ document.addEventListener('DOMContentLoaded', () => {
       timer = setInterval(() => goTo(current + 1), 4000);
     }
 
-    cards.forEach(c => c.classList.remove('carousel-active'));
+    // Initialise first card
     cards[0].classList.add('carousel-active');
     resetTimer();
   }
 
+  // ── Init + resize handling ──
   initCarousel();
 
   let wasCarousel = window.innerWidth <= 600;
+
   window.addEventListener('resize', () => {
     const isCarousel = window.innerWidth <= 600;
-    if (isCarousel !== wasCarousel) {
-      wasCarousel = isCarousel;
-      if (!isCarousel) {
-        document.querySelectorAll('.projects-grid .project-card')
-          .forEach(c => c.classList.remove('carousel-active'));
-        document.querySelector('.carousel-dots')?.remove();
-        document.querySelector('.carousel-nav')?.remove();
-      } else {
-        initCarousel();
+    if (isCarousel === wasCarousel) return;
+    wasCarousel = isCarousel;
+
+    if (!isCarousel) {
+      // Tear down
+      document.querySelector('.carousel-dots')?.remove();
+      document.querySelector('.carousel-nav')?.remove();
+      const grid = document.querySelector('.projects-grid');
+      if (grid) {
+        grid.classList.remove('is-carousel');
+        grid.style.minHeight = '';
       }
+      document.querySelectorAll('.projects-grid .project-card')
+        .forEach(c => c.classList.remove('carousel-active', 'carousel-exit'));
+    } else {
+      initCarousel();
     }
   });
+
 })();
