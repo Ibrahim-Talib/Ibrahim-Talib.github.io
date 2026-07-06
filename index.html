@@ -1,421 +1,602 @@
 <!DOCTYPE html>
-<html lang="en" class="light-theme">
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>document.documentElement.classList.add('js');try{if(sessionStorage.getItem('it-booted'))document.documentElement.classList.add('booted')}catch(e){document.documentElement.classList.add('booted')}</script>
+<title>Ibrahim Talib Ch. | Software Meets Hardware | Portfolio</title>
+<meta name="description" content="Portfolio of Ibrahim Talib Ch., computer science undergrad at LUMS, Lahore. Five documented builds across embedded robotics, C++ systems and live web tools. Open a channel on WhatsApp or email.">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#0b0d0c">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Ibrahim Talib Ch. | Software Meets Hardware">
+<meta property="og:description" content="CS undergrad at LUMS. Five documented builds: embedded robotics, C++ systems, and live web tools, one delivered to a real client.">
+<meta property="og:url" content="https://ibrahim-talib.github.io/">
+<meta property="og:image" content="https://ibrahim-talib.github.io/assets/images/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="assets/svg/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="assets/images/favicon-32.png" type="image/png" sizes="32x32">
+<link rel="apple-touch-icon" href="assets/images/apple-touch-icon.png">
+<link rel="preload" href="assets/fonts/chakrapetch-700.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="assets/fonts/plexmono-400.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="css/style.css">
+<noscript><style>.composer{display:none}</style></noscript>
+</head>
+<body>
 
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Ibrahim Talib | Portfolio</title>
-    <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/devicons/devicon@v2.16.0/devicon.min.css"/>
-  </head>
+<a class="skip-link" href="#profile">Skip to content</a>
 
-  <body>
+<!-- Boot sequence overlay. Exists only for JS visitors, once per session. -->
+<div class="boot" id="boot" aria-hidden="true">
+  <pre class="boot-lines"><span>IT-BOARD REV B</span><span>RAILS ............. OK</span><span>SILKSCREEN ........ OK</span><span>MODULES ........... 5 OF 5</span><span>ROUTING COMPLETE</span></pre>
+</div>
 
-    <!-- NAVIGATION BAR -->
-    <header>
-      <nav class="navbar">
+<header class="site-head" id="top">
+  <a class="brand" href="#top" aria-label="Ibrahim Talib Ch., back to top">
+    <svg class="brand-chip" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+      <rect x="6" y="6" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.6"/>
+      <path d="M2 9h4M2 15h4M18 9h4M18 15h4M9 2v4M15 2v4M9 18v4M15 18v4" stroke="currentColor" stroke-width="1.6"/>
+    </svg>
+    <span class="brand-name">IBRAHIM&nbsp;TALIB&nbsp;CH.</span>
+  </a>
+  <nav class="site-nav" aria-label="Primary">
+    <a href="#profile">PROFILE</a>
+    <a href="#projects">PROJECTS</a>
+    <a href="#skills">SKILLS</a>
+    <a href="#contact">CONTACT</a>
+  </nav>
+</header>
 
-        <div class="nav-logo">
-          <a href="#hero">I <span>T</span></a>
+<main id="main">
+
+  <!-- ============ HERO / SYSTEM OVERVIEW ============ -->
+  <section class="hero" aria-label="Introduction">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <h1 class="hero-title" data-reveal>
+          <span class="line">I BUILD WHERE</span>
+          <span class="line"><em>SOFTWARE</em> MEETS</span>
+          <span class="line"><em>HARDWARE</em></span>
+        </h1>
+        <p class="hero-sub" data-reveal style="--i:1">
+          CS undergrad at LUMS. Five documented builds: embedded robotics,
+          C++ systems, and live web tools, one delivered to a real client.
+        </p>
+        <div class="hero-cta" data-reveal style="--i:2">
+          <a class="btn btn-primary" href="https://wa.me/923094455101?text=Hi%20Ibrahim%2C%20I%20found%20your%20portfolio%20and%20would%20like%20to%20connect."
+             target="_blank" rel="noopener noreferrer"
+             aria-label="Message Ibrahim on WhatsApp, opens in a new tab">
+            MESSAGE ON WHATSAPP
+            <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M2 8h10M8 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+          </a>
+          <a class="btn btn-ghost" href="#projects">INSPECT THE MODULES</a>
         </div>
+      </div>
 
-        <ul class="nav-links">
-          <li><a href="#about">About</a></li>
-          <li><a href="#skills">Skills</a></li>
-          <li><a href="#projects">Projects</a></li>
-          <li><a href="#contact">Contact</a></li>
-          <li class="nav-theme-item">
-            <button class="theme-toggle" aria-label="Toggle theme">
-              <span class="theme-icon theme-icon--moon">🌙</span>
-              <span class="theme-icon theme-icon--sun">☀️</span>
-            </button>
-            <span class="nav-theme-label">Mode</span>
+      <!-- The reference design: this board is the site map. Chip = profile, pads = projects. -->
+      <div class="hero-board" data-reveal style="--i:2">
+        <svg class="board" viewBox="0 0 520 500" role="group" aria-label="Schematic board diagram. The controller chip links to the profile section, and five module pads link to each project.">
+          <defs>
+            <clipPath id="board-clip"><path d="M22 2 H498 L518 22 V478 L498 498 H22 L2 478 V22 Z"/></clipPath>
+          </defs>
+          <!-- board outline, chamfered like a real PCB -->
+          <path class="board-edge" d="M22 2 H498 L518 22 V478 L498 498 H22 L2 478 V22 Z"/>
+          <g clip-path="url(#board-clip)" class="board-grid" aria-hidden="true">
+            <path d="M0 60h520M0 120h520M0 180h520M0 240h520M0 300h520M0 360h520M0 420h520M60 0v500M120 0v500M180 0v500M240 0v500M300 0v500M360 0v500M420 0v500M480 0v500"/>
+          </g>
+          <!-- mounting holes -->
+          <g class="board-holes" aria-hidden="true">
+            <circle cx="28" cy="28" r="7"/><circle cx="492" cy="28" r="7"/>
+            <circle cx="28" cy="472" r="7"/><circle cx="492" cy="472" r="7"/>
+          </g>
+
+          <!-- traces from U1 to each module pad (drawn on load) -->
+          <g class="traces" aria-hidden="true">
+            <path class="trace" pathLength="1" d="M198 178 H150 L118 146 V96"/>
+            <path class="trace" pathLength="1" d="M322 178 H370 L402 146 V96"/>
+            <path class="trace" pathLength="1" d="M198 262 H132 L100 294 V330"/>
+            <path class="trace" pathLength="1" d="M322 262 H388 L420 294 V330"/>
+            <path class="trace" pathLength="1" d="M260 300 V344"/>
+            <path class="trace trace-aux" pathLength="1" d="M64 430 H208 L236 458 H456"/>
+          </g>
+          <!-- signal pulses travelling the nets (decorative; hidden without offset-path support) -->
+          <g aria-hidden="true">
+            <circle class="pulse" r="3.2" style="offset-path:path('M198 178 H150 L118 146 V96')"/>
+            <circle class="pulse" r="3.2" style="offset-path:path('M322 262 H388 L420 294 V330');animation-delay:1.6s"/>
+            <circle class="pulse" r="3.2" style="offset-path:path('M260 300 V344');animation-delay:3.1s"/>
+            <circle class="pulse" r="3.2" style="offset-path:path('M64 430 H208 L236 458 H456');animation-delay:2.2s"/>
+          </g>
+
+          <!-- vias where traces meet pads -->
+          <g class="vias" aria-hidden="true">
+            <circle cx="118" cy="96" r="5"/><circle cx="402" cy="96" r="5"/>
+            <circle cx="100" cy="330" r="5"/><circle cx="420" cy="330" r="5"/>
+            <circle cx="260" cy="344" r="5"/>
+          </g>
+
+          <!-- U1: the controller (links to profile) -->
+          <a href="#profile" class="chip-link" aria-label="U1, the controller. Go to profile section.">
+            <g class="chip">
+              <rect x="198" y="178" width="124" height="122" rx="3"/>
+              <g class="chip-pins">
+                <path d="M212 178v-12M236 178v-12M260 178v-12M284 178v-12M308 178v-12M212 300v12M236 300v12M260 300v12M284 300v12M308 300v12M198 196h-12M198 220h-12M198 244h-12M198 268h-12M322 196h12M322 220h12M322 244h12M322 268h12"/>
+              </g>
+              <circle class="chip-dot" cx="212" cy="192" r="3.5"/>
+              <text class="chip-ref" x="260" y="228" text-anchor="middle">U1</text>
+              <text class="chip-name" x="260" y="248" text-anchor="middle">IBRAHIM TALIB</text>
+              <text class="chip-sub" x="260" y="266" text-anchor="middle">IT-2029 / LUMS</text>
+            </g>
+          </a>
+
+          <!-- module pads (each links to its project) -->
+          <a href="#u2" class="pad-link" aria-label="U2, NERC 2026 robotics build. Go to project.">
+            <g class="pad" transform="translate(62,44)">
+              <rect width="112" height="52" rx="3"/>
+              <text class="pad-ref" x="12" y="22">U2</text>
+              <text class="pad-name" x="12" y="38">NERC ROBOT</text>
+            </g>
+          </a>
+          <a href="#u3" class="pad-link" aria-label="U3, ATM simulation system. Go to project.">
+            <g class="pad" transform="translate(346,44)">
+              <rect width="112" height="52" rx="3"/>
+              <text class="pad-ref" x="12" y="22">U3</text>
+              <text class="pad-name" x="12" y="38">ATM SIM</text>
+            </g>
+          </a>
+          <a href="#u4" class="pad-link" aria-label="U4, SAATHI OPD triage prototype. Go to project.">
+            <g class="pad" transform="translate(44,330)">
+              <rect width="112" height="52" rx="3"/>
+              <text class="pad-ref" x="12" y="22">U4</text>
+              <text class="pad-name" x="12" y="38">SAATHI</text>
+            </g>
+          </a>
+          <a href="#u5" class="pad-link" aria-label="U5, ENZO B2B website. Go to project.">
+            <g class="pad" transform="translate(364,330)">
+              <rect width="112" height="52" rx="3"/>
+              <text class="pad-ref" x="12" y="22">U5</text>
+              <text class="pad-name" x="12" y="38">ENZO B2B</text>
+            </g>
+          </a>
+          <a href="#u6" class="pad-link" aria-label="U6, RISE quotation app. Go to project.">
+            <g class="pad" transform="translate(204,344)">
+              <rect width="112" height="52" rx="3"/>
+              <text class="pad-ref" x="12" y="22">U6</text>
+              <text class="pad-name" x="12" y="38">RISE QUOTE</text>
+            </g>
+          </a>
+
+          <!-- silkscreen notes -->
+          <g class="silk-note" aria-hidden="true">
+            <text x="64" y="418">NET: PORTFOLIO_BUS</text>
+            <text x="380" y="486">SHEET 1 OF 1</text>
+          </g>
+
+          <!-- test points -->
+          <g class="testpoints" aria-hidden="true">
+            <circle cx="470" cy="430" r="4.5"/><text x="462" y="416">TP1</text>
+          </g>
+        </svg>
+        <!-- TP611: the power-noise test point. A real story from the NERC build. -->
+        <button class="tp611" id="tp611" type="button" aria-label="Test point TP611. Probe it.">
+          <span class="tp611-pad" aria-hidden="true"></span>TP611
+        </button>
+        <div class="tp611-readout" id="tp611-readout" role="status" hidden>
+          <p><strong>TP611 / RAIL NOISE REPRODUCED.</strong>
+          Power-supply noise was diagnosed on the NERC robot during bring-up,
+          and the robot still made it to competition day, June 11, 2026.
+          Failures get documented here, not hidden. <a href="#u2">SEE U2</a></p>
+          <button type="button" class="tp611-close" aria-label="Dismiss readout">CLEAR</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ U1 / PROFILE ============ -->
+  <section class="sec" id="profile" aria-labelledby="profile-h">
+    <div class="wrap">
+      <header class="sec-head" data-reveal>
+        <h2 id="profile-h"><span class="ref" aria-hidden="true">U1</span>THE CONTROLLER</h2>
+        <svg class="net-line" viewBox="0 0 320 12" aria-hidden="true" preserveAspectRatio="none"><path pathLength="1" class="trace" d="M0 6 H210 L222 11 H320"/></svg>
+      </header>
+
+      <div class="profile-grid">
+        <figure class="fig" data-reveal>
+          <span class="fig-bracket tl" aria-hidden="true"></span>
+          <span class="fig-bracket br" aria-hidden="true"></span>
+          <img src="assets/images/me.png" alt="Portrait of Ibrahim Talib Ch. in a brown suit and dark red tie" width="900" height="1200" loading="lazy" decoding="async">
+          <figcaption>FIG. 1 / U1 IN PACKAGE, ACTUAL ENGINEER</figcaption>
+        </figure>
+
+        <div class="profile-body">
+          <p class="lead" data-reveal>
+            Ibrahim Talib Ch. Computer science undergrad at
+            <strong>LUMS</strong> (Lahore University of Management Sciences),
+            Class of 2029, based in Lahore, Pakistan.
+          </p>
+          <p data-reveal style="--i:1">
+            The pattern across the work is one loop: take a system from code
+            into the physical world and back. C++ and SFML on the desktop.
+            Arduino, ESP32 and PID control on the bench. JavaScript, LLM APIs
+            and PDF pipelines on the web, in front of real users.
+          </p>
+          <ul class="pinout" data-reveal-group>
+            <li><span class="pin-no">PIN 1</span><span class="pin-fn">EDUCATION</span><span class="pin-val">BS Computer Science, LUMS, 2025 to 2029</span></li>
+            <li><span class="pin-no">PIN 2</span><span class="pin-fn">LOCATION</span><span class="pin-val">Lahore, Punjab, Pakistan</span></li>
+            <li><span class="pin-no">PIN 3</span><span class="pin-fn">LANGUAGES</span><span class="pin-val">C++, Python, JavaScript, HTML/CSS</span></li>
+            <li><span class="pin-no">PIN 4</span><span class="pin-fn">BENCH</span><span class="pin-val">Arduino, ESP32</span></li>
+            <li><span class="pin-no">PIN 5</span><span class="pin-fn">DIRECT LINE</span><span class="pin-val">+92 309 4455101</span></li>
+          </ul>
+          <a class="btn btn-ghost" href="assets/ibrahim-talib-resume.pdf" download data-reveal style="--i:6">
+            DOWNLOAD R&Eacute;SUM&Eacute; (PDF)
+            <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M8 2v8M4 7l4 4 4-4M3 14h10" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ MODULES / PROJECTS ============ -->
+  <section class="sec" id="projects" aria-labelledby="projects-h">
+    <div class="wrap">
+      <header class="sec-head" data-reveal>
+        <h2 id="projects-h"><span class="ref" aria-hidden="true">U2-U6</span>THE MODULES</h2>
+        <svg class="net-line" viewBox="0 0 320 12" aria-hidden="true" preserveAspectRatio="none"><path pathLength="1" class="trace" d="M0 6 H210 L222 11 H320"/></svg>
+        <p class="sec-sub">Five builds, October 2025 to June 2026. Documented as designed, including the one that failed.</p>
+      </header>
+
+      <!-- U2 featured -->
+      <article class="module module-featured" id="u2" data-reveal>
+        <div class="module-media module-media-robot">
+          <svg class="robot" viewBox="0 0 360 300" role="img" aria-label="Top-view schematic of the mecanum-wheel competition robot with ultrasonic, IR line and color sensors and a servo payload arm.">
+            <!-- chassis -->
+            <rect class="r-chassis" x="90" y="60" width="180" height="180" rx="6"/>
+            <!-- mecanum wheels with 45 degree rollers -->
+            <g class="r-wheel" transform="translate(58,58)">
+              <rect width="26" height="62" rx="4"/><path class="r-rollers" d="M4 14l18-8M4 30l18-8M4 46l18-8M4 62l18-8"/>
+            </g>
+            <g class="r-wheel" transform="translate(276,58)">
+              <rect width="26" height="62" rx="4"/><path class="r-rollers" d="M4 6l18 8M4 22l18 8M4 38l18 8M4 54l18 8"/>
+            </g>
+            <g class="r-wheel" transform="translate(58,180)">
+              <rect width="26" height="62" rx="4"/><path class="r-rollers" d="M4 6l18 8M4 22l18 8M4 38l18 8M4 54l18 8"/>
+            </g>
+            <g class="r-wheel" transform="translate(276,180)">
+              <rect width="26" height="62" rx="4"/><path class="r-rollers" d="M4 14l18-8M4 30l18-8M4 46l18-8M4 62l18-8"/>
+            </g>
+            <!-- ultrasonic "eyes" front -->
+            <g class="r-sensor">
+              <rect x="146" y="42" width="68" height="26" rx="3"/>
+              <circle cx="163" cy="55" r="8"/><circle cx="197" cy="55" r="8"/>
+            </g>
+            <path class="r-ping p1" d="M150 30a44 44 0 0 1 60 0"/>
+            <path class="r-ping p2" d="M138 18a64 64 0 0 1 84 0"/>
+            <!-- controller -->
+            <rect class="r-mcu" x="150" y="120" width="60" height="60" rx="3"/>
+            <text class="r-label r-label-mcu" x="180" y="147" text-anchor="middle">PID</text>
+            <text class="r-label r-label-mcu" x="180" y="163" text-anchor="middle">CTRL</text>
+            <!-- color sensor -->
+            <rect class="r-sensor" x="118" y="128" width="22" height="22" rx="3"/>
+            <!-- servo payload -->
+            <g class="r-servo">
+              <rect x="222" y="122" width="28" height="40" rx="3"/>
+              <path class="r-arm" d="M236 142 L268 118"/>
+              <circle cx="236" cy="142" r="4"/>
+            </g>
+            <!-- IR line array -->
+            <g class="r-ir">
+              <rect x="140" y="216" width="12" height="12"/><rect x="158" y="216" width="12" height="12"/>
+              <rect x="176" y="216" width="12" height="12"/><rect x="194" y="216" width="12" height="12"/>
+              <rect x="212" y="216" width="12" height="12"/>
+            </g>
+            <!-- labels -->
+            <text class="r-label" x="180" y="86" text-anchor="middle">ULTRASONIC</text>
+            <text class="r-label" x="129" y="164" text-anchor="middle">COLOR</text>
+            <text class="r-label" x="236" y="176" text-anchor="middle">SERVO</text>
+            <text class="r-label" x="180" y="244" text-anchor="middle">IR LINE x5</text>
+            <text class="r-label" x="44" y="152" text-anchor="middle" transform="rotate(-90 44 152)">MECANUM x4</text>
+          </svg>
+        </div>
+        <div class="module-body">
+          <div class="module-top">
+            <span class="module-ref">U2</span>
+            <span class="module-status">COMPETED 11 JUN 2026</span>
+          </div>
+          <h3>NERC 2026 ROBOTICS BUILD</h3>
+          <ul class="chips" aria-label="Technologies">
+            <li>ARDUINO</li><li>C++</li><li>EMBEDDED</li>
+          </ul>
+          <ul class="module-facts">
+            <li>Mecanum-wheel robot carrying ultrasonic, IR line and color sensors, with a servo-driven payload mechanism.</li>
+            <li>PID and PD motor control, tuned on the bench.</li>
+            <li>Power-supply noise diagnosed and chased down during bring-up.</li>
+          </ul>
+          <aside class="postmortem">
+            <p><strong>POST-MORTEM:</strong> competed on June 11, 2026. A hardware
+            failure on the day meant no placement. It stays on this board anyway:
+            real engineering keeps its failure reports.</p>
+          </aside>
+        </div>
+      </article>
+
+      <div class="module-grid">
+        <!-- U3 ATM -->
+        <article class="module" id="u3" data-reveal>
+          <div class="module-media module-media-shots">
+            <img class="shot shot-a" src="assets/images/atm-welcome.png" alt="ATM simulator welcome screen with log in, sign up and exit options" width="482" height="673" loading="lazy" decoding="async">
+            <img class="shot shot-b" src="assets/images/atm-session.png" alt="ATM simulator session screen showing current balance, deposit, withdraw and history actions" width="482" height="673" loading="lazy" decoding="async">
+            <span class="shot-hint" aria-hidden="true">CAPTURE 1/2, HOVER TO LOG IN</span>
+          </div>
+          <div class="module-body">
+            <div class="module-top">
+              <span class="module-ref">U3</span>
+              <span class="module-status">BUILT OCT-DEC 2025</span>
+            </div>
+            <h3>ATM SIMULATION SYSTEM</h3>
+            <ul class="chips" aria-label="Technologies"><li>C++</li><li>SFML</li></ul>
+            <ul class="module-facts">
+              <li>Account creation, deposits, withdrawals and transaction history.</li>
+              <li>Custom in-file vector storage for data persistence.</li>
+              <li>Password-protected login with a session timer.</li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- U4 SAATHI -->
+        <article class="module" id="u4" data-reveal style="--i:1">
+          <div class="module-media">
+            <svg class="glyph" viewBox="0 0 360 210" role="img" aria-label="Schematic symbol: rule-based logic and an LLM feeding a comparator that outputs triage.">
+              <path class="g-line" d="M30 70 H120"/>
+              <path class="g-line" d="M30 140 H120"/>
+              <text class="g-label" x="30" y="58">RULES</text>
+              <text class="g-label" x="30" y="128">LLM / GROQ</text>
+              <path class="g-body" d="M120 40 L240 105 L120 170 Z"/>
+              <text class="g-label g-label-in" x="132" y="76">+</text>
+              <text class="g-label g-label-in" x="132" y="146">~</text>
+              <path class="g-line" d="M240 105 H330"/>
+              <text class="g-label" x="252" y="93">TRIAGE OUT</text>
+              <g class="g-cross">
+                <circle cx="296" cy="52" r="22"/>
+                <path d="M296 40v24M284 52h24"/>
+              </g>
+            </svg>
+          </div>
+          <div class="module-body">
+            <div class="module-top">
+              <span class="module-ref">U4</span>
+              <span class="module-status">PRESENTED AT NRIC 2026</span>
+            </div>
+            <h3>SAATHI, OPD TRIAGE PROTOTYPE</h3>
+            <ul class="chips" aria-label="Technologies"><li>JAVASCRIPT</li><li>GROQ API</li><li>LLAMA 3.3 70B</li></ul>
+            <ul class="module-facts">
+              <li>Rule-based clinical logic combined with LLM-assisted reasoning.</li>
+              <li>Deployed on GitHub Pages.</li>
+              <li>Presented at NRIC 2026, the National Research and Innovation Conference, at KEMU.</li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- U5 ENZO -->
+        <article class="module" id="u5" data-reveal>
+          <div class="module-media">
+            <svg class="glyph" viewBox="0 0 360 210" role="img" aria-label="Schematic symbol: a browser window running a live waveform, standing for the ENZO site's Canvas2D hero animation.">
+              <rect class="g-body" x="60" y="30" width="240" height="150" rx="4"/>
+              <path class="g-line" d="M60 62 H300"/>
+              <circle class="g-dot" cx="78" cy="46" r="4"/>
+              <circle class="g-dot" cx="94" cy="46" r="4"/>
+              <path class="g-weave" d="M84 96h48M84 112h48M84 128h48M84 144h48M96 84v72M112 84v72M128 84v72"/>
+              <path class="g-wave" pathLength="1" d="M150 130 q14 -44 28 0 t28 0 t28 0 t28 0 t28 0"/>
+              <text class="g-label" x="84" y="170">LIVE / enzolhr.com</text>
+            </svg>
+          </div>
+          <div class="module-body">
+            <div class="module-top">
+              <span class="module-ref">U5</span>
+              <span class="module-status">LIVE APR-JUN 2026</span>
+            </div>
+            <h3>ENZO B2B WEBSITE</h3>
+            <ul class="chips" aria-label="Technologies"><li>HTML</li><li>TAILWIND CSS</li><li>JAVASCRIPT</li></ul>
+            <ul class="module-facts">
+              <li>Live B2B fabric-wholesale site for ENZO, Lahore.</li>
+              <li>Brand kit and an animated logo reveal.</li>
+              <li>Canvas2D hero animation, hand-tuned.</li>
+            </ul>
+          </div>
+        </article>
+
+        <!-- U6 RISE -->
+        <article class="module" id="u6" data-reveal style="--i:1">
+          <div class="module-media">
+            <svg class="glyph" viewBox="0 0 360 210" role="img" aria-label="Schematic symbol: a solar panel feeding a generated PDF document, standing for the RISE quotation tool.">
+              <g class="g-panel">
+                <rect class="g-body" x="40" y="55" width="110" height="80" rx="3"/>
+                <path class="g-weave" d="M40 82h110M40 109h110M77 55v80M114 55v80"/>
+              </g>
+              <path class="g-ray" d="M30 40 L44 54M60 30 L66 48M94 26 L94 44"/>
+              <path class="g-line g-flow" pathLength="1" d="M150 95 H210"/>
+              <path class="g-arrow" d="M204 89 L212 95 L204 101"/>
+              <g class="g-doc">
+                <path class="g-body" d="M226 45 h70 l24 24 v96 h-94 Z"/>
+                <path class="g-line" d="M296 45 v24 h24"/>
+                <path class="g-weave" d="M242 96h62M242 114h62M242 132h40"/>
+                <text class="g-label" x="242" y="158">PDF</text>
+              </g>
+              <text class="g-label" x="40" y="160">OFFLINE / ONE FILE</text>
+            </svg>
+          </div>
+          <div class="module-body">
+            <div class="module-top">
+              <span class="module-ref">U6</span>
+              <span class="module-status">DELIVERED JUN 2026</span>
+            </div>
+            <h3>RISE POWER SOLUTIONS, QUOTATION APP</h3>
+            <ul class="chips" aria-label="Technologies"><li>JAVASCRIPT</li><li>JSPDF</li></ul>
+            <ul class="module-facts">
+              <li>Offline, single-file tool that generates branded PDF solar quotes.</li>
+              <li>Delivered to a real client in Lahore.</li>
+            </ul>
+          </div>
+        </article>
+      </div>
+
+      <div class="module-more" data-reveal>
+        <a class="btn btn-ghost" href="https://github.com/Ibrahim-Talib" target="_blank" rel="noopener noreferrer"
+           aria-label="All repositories on GitHub, opens in a new tab">
+          FULL SOURCE INDEX ON GITHUB
+          <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3 13L13 3M6 3h7v7" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ BOM / SKILLS ============ -->
+  <section class="sec" id="skills" aria-labelledby="skills-h">
+    <div class="wrap">
+      <header class="sec-head" data-reveal>
+        <h2 id="skills-h"><span class="ref" aria-hidden="true">BOM</span>BILL OF MATERIALS</h2>
+        <svg class="net-line" viewBox="0 0 320 12" aria-hidden="true" preserveAspectRatio="none"><path pathLength="1" class="trace" d="M0 6 H210 L222 11 H320"/></svg>
+        <p class="sec-sub">Every part currently stocked on the bench. Quantities honest, one entry still in reflow.</p>
+      </header>
+
+      <table class="bom" data-reveal>
+        <thead>
+          <tr><th scope="col">ITEM</th><th scope="col">GROUP</th><th scope="col">COMPONENTS</th><th scope="col">NOTE</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <th scope="row" data-th="ITEM">L1</th>
+            <td data-th="GROUP">PROGRAMMING LANGUAGES</td>
+            <td data-th="COMPONENTS"><span class="part">C++</span><span class="part">PYTHON</span><span class="part">HTML/CSS</span><span class="part">JAVASCRIPT</span></td>
+            <td data-th="NOTE"><span class="note-blank" aria-hidden="true">....</span><span class="visually-hidden">No note</span></td>
+          </tr>
+          <tr>
+            <th scope="row" data-th="ITEM">T1</th>
+            <td data-th="GROUP">TOOLS &amp; PLATFORMS</td>
+            <td data-th="COMPONENTS"><span class="part">GIT</span><span class="part">GITHUB</span><span class="part">LINUX (UBUNTU)</span><span class="part">SFML</span></td>
+            <td data-th="NOTE">Ubuntu flagged LEARNING, as printed on the r&eacute;sum&eacute;</td>
+          </tr>
+          <tr>
+            <th scope="row" data-th="ITEM">H1</th>
+            <td data-th="GROUP">HARDWARE / EMBEDDED</td>
+            <td data-th="COMPONENTS"><span class="part">ARDUINO</span><span class="part">ESP32</span></td>
+            <td data-th="NOTE"><span class="note-blank" aria-hidden="true">....</span><span class="visually-hidden">No note</span></td>
+          </tr>
+          <tr>
+            <th scope="row" data-th="ITEM">A1</th>
+            <td data-th="GROUP">AI-ASSISTED DEVELOPMENT</td>
+            <td data-th="COMPONENTS"><span class="part">CLAUDE CODE</span></td>
+            <td data-th="NOTE">Used to route this very board</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ============ CONTACT ============ -->
+  <section class="sec sec-contact" id="contact" aria-labelledby="contact-h">
+    <div class="wrap">
+      <header class="sec-head" data-reveal>
+        <h2 id="contact-h"><span class="ref" aria-hidden="true">J1</span>OPEN A CHANNEL</h2>
+        <svg class="net-line" viewBox="0 0 320 12" aria-hidden="true" preserveAspectRatio="none"><path pathLength="1" class="trace" d="M0 6 H210 L222 11 H320"/></svg>
+        <p class="sec-sub">This whole board routes to one connector: you, reaching me. WhatsApp is the fast lane; every port below is live.</p>
+      </header>
+
+      <div class="contact-grid">
+        <ul class="ports" data-reveal-group>
+          <li>
+            <a class="port port-primary" href="https://wa.me/923094455101?text=Hi%20Ibrahim%2C%20I%20found%20your%20portfolio%20and%20would%20like%20to%20connect."
+               target="_blank" rel="noopener noreferrer" aria-label="Message Ibrahim on WhatsApp at +92 309 4455101, opens in a new tab">
+              <span class="port-pin" aria-hidden="true">J1-1</span>
+              <span class="port-name">WHATSAPP</span>
+              <span class="port-detail">+92 309 4455101</span>
+              <svg class="port-arrow" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M2 8h10M8 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+            </a>
+          </li>
+          <li>
+            <a class="port" href="mailto:ibrahimtalib.official@gmail.com"
+               aria-label="Email Ibrahim at ibrahimtalib.official@gmail.com">
+              <span class="port-pin" aria-hidden="true">J1-2</span>
+              <span class="port-name">EMAIL</span>
+              <span class="port-detail">ibrahimtalib.official@gmail.com</span>
+              <svg class="port-arrow" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M2 8h10M8 3l5 5-5 5" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+            </a>
+          </li>
+          <li>
+            <a class="port" href="https://github.com/Ibrahim-Talib" target="_blank" rel="noopener noreferrer"
+               aria-label="Ibrahim's GitHub profile, opens in a new tab">
+              <span class="port-pin" aria-hidden="true">J1-3</span>
+              <span class="port-name">GITHUB</span>
+              <span class="port-detail">github.com/Ibrahim-Talib</span>
+              <svg class="port-arrow" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3 13L13 3M6 3h7v7" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+            </a>
+          </li>
+          <li>
+            <a class="port" href="https://www.linkedin.com/in/ibrahim-talib-30941536a" target="_blank" rel="noopener noreferrer"
+               aria-label="Ibrahim's LinkedIn profile, opens in a new tab">
+              <span class="port-pin" aria-hidden="true">J1-4</span>
+              <span class="port-name">LINKEDIN</span>
+              <span class="port-detail">in/ibrahim-talib-30941536a</span>
+              <svg class="port-arrow" viewBox="0 0 16 16" aria-hidden="true" focusable="false"><path d="M3 13L13 3M6 3h7v7" fill="none" stroke="currentColor" stroke-width="1.8"/></svg>
+            </a>
           </li>
         </ul>
 
-        <div class="navbar-right">
-          <button class="theme-toggle" id="theme-toggle" aria-label="Toggle theme">
-            <span class="theme-icon theme-icon--moon">🌙</span>
-            <span class="theme-icon theme-icon--sun">☀️</span>
-          </button>
-          <div class="hamburger">
-            <span></span>
-            <span></span>
-            <span></span>
+        <!-- Composer: builds a prefilled WhatsApp or email message. No server, nothing stored. -->
+        <form class="composer" id="composer" data-reveal style="--i:2">
+          <p class="composer-head">WRITE TO THE BUS</p>
+          <p class="composer-note">Type once, transmit on either channel. This form opens your own WhatsApp or mail app with the message prefilled. Nothing is posted to a server.</p>
+          <div class="field">
+            <label for="c-name">YOUR NAME <span class="opt">(OPTIONAL)</span></label>
+            <input id="c-name" name="name" type="text" autocomplete="name" maxlength="80">
           </div>
-        </div>
-
-      </nav>
-    </header>
-
-    <main>
-
-      <!-- HERO SECTION -->
-      <section id="hero" class="hero-section">
-        <div class="hero-content">
-          <p class="hero-greeting">Hi there, I'm</p>
-          <h1 class="hero-name">Ibrahim Talib</h1>
-          <h2 class="hero-title">
-            <span class="title-static">A </span>
-            <span class="title-dynamic"></span>
-          </h2>
-          <p class="hero-tagline">Trying to build my way through college.</p>
-          <div class="hero-buttons">
-            <a href="#projects" class="btn btn-primary">View My Work</a>
-            <a href="#contact" class="btn btn-secondary">Contact Me</a>
+          <div class="field">
+            <label for="c-msg">MESSAGE</label>
+            <textarea id="c-msg" name="message" rows="4" maxlength="1200"
+              placeholder="Hi Ibrahim, I found your portfolio and would like to connect."></textarea>
           </div>
-        </div>
-      </section>
-
-      <!-- ABOUT SECTION -->
-      <section id="about" class="about-section">
-        <div class="section-container">
-
-        <div class="about-image reveal">
-          <div class="profile-wrapper">
-            <img src="assets/images/me2.png" alt="Ibrahim Talib" class="profile-photo"/>
-            <div class="profile-circle-bg"></div>
-            <div class="profile-circle-ring"></div>
+          <div class="composer-actions">
+            <a class="btn btn-primary" id="send-wa"
+               href="https://wa.me/923094455101?text=Hi%20Ibrahim%2C%20I%20found%20your%20portfolio%20and%20would%20like%20to%20connect."
+               target="_blank" rel="noopener noreferrer"
+               aria-label="Send this message via WhatsApp, opens in a new tab">TRANSMIT VIA WHATSAPP</a>
+            <a class="btn btn-ghost" id="send-mail"
+               href="mailto:ibrahimtalib.official@gmail.com?subject=Portfolio%20contact"
+               aria-label="Send this message via your email app">TRANSMIT VIA EMAIL</a>
           </div>
-        </div>
-
-          <div class="about-content reveal reveal-delay-2">
-            <p class="section-label">Get To Know Me</p>
-            <h2 class="section-heading">About Me</h2>
-            <p class="about-text">
-              Hi! I'm Ibrahim, a passionate developer based in Lahore, Pakistan.
-              I enjoy building things that live on the internet — whether that's
-              websites, applications, or anything in between.
-            </p>
-            <p class="about-text">
-              I have a background in <strong>computer science</strong> and a
-              love for clean code, thoughtful design, and solving real problems
-              through technology. I'm currently looking for opportunities to
-              grow, contribute, and build great things with great teams.
-            </p>
-            <div class="about-info">
-              <div class="info-item">
-                <span class="info-label">Location</span>
-                <span class="info-value">Lahore, Pakistan</span>
-              </div>
-              <div class="info-item">
-                <span class="info-label">Availability</span>
-                <span class="info-value">Open to Internships ✅</span>
-              </div>
-              <div class="info-item">
-                <span class="info-label">Education</span>
-                <span class="info-value">BS Computer Science — LUMS</span>
-              </div>
-              <div class="info-item">
-                <span class="info-label">Language</span>
-                <span class="info-value">English, Urdu</span>
-              </div>
-            </div>
-            <a href="assets/ibrahim-talib-cv.pdf" download class="btn btn-primary">Download CV</a>
-          </div>
-
-        </div>
-      </section>
-
-      <!-- SKILLS SECTION -->
-      <section id="skills" class="skills-section">
-        <div class="section-container">
-
-          <p class="section-label">What I Work With</p>
-          <h2 class="section-heading">My Skills</h2>
-
-          <div class="skills-cat-grid">
-
-            <!-- Languages -->
-            <div class="skills-cat-card reveal">
-              <div class="skills-cat-header">
-                <span class="skills-cat-icon">⚙️</span>
-                <span class="skills-cat-name">Languages</span>
-              </div>
-              <div class="skills-bar-list">
-
-                <div class="skill-bar-item" data-pct="47">
-                  <div class="skill-bar-meta">
-                    <span class="skill-bar-name"><i class="devicon-cplusplus-plain colored"></i>C/C++</span>
-                    <span class="skill-bar-pct">0%</span>
-                  </div>
-                  <div class="skill-bar-track"><div class="skill-bar-fill"></div></div>
-                </div>
-
-                <div class="skill-bar-item" data-pct="30">
-                  <div class="skill-bar-meta">
-                    <span class="skill-bar-name"><i class="devicon-python-plain colored"></i>Python</span>
-                    <span class="skill-bar-pct">0%</span>
-                  </div>
-                  <div class="skill-bar-track"><div class="skill-bar-fill"></div></div>
-                </div>
-
-              </div>
-            </div>
-
-            <!-- Web Development -->
-            <div class="skills-cat-card reveal">
-              <div class="skills-cat-header">
-                <span class="skills-cat-icon">🌐</span>
-                <span class="skills-cat-name">Web Development <span class="learning-badge">Learning</span></span>
-              </div>
-              <div class="skills-bar-list">
-
-                <div class="skill-bar-item" data-pct="50">
-                  <div class="skill-bar-meta">
-                    <span class="skill-bar-name"><i class="devicon-html5-plain colored"></i>HTML5</span>
-                    <span class="skill-bar-pct">0%</span>
-                  </div>
-                  <div class="skill-bar-track"><div class="skill-bar-fill"></div></div>
-                </div>
-
-                <div class="skill-bar-item" data-pct="35">
-                  <div class="skill-bar-meta">
-                    <span class="skill-bar-name"><i class="devicon-css3-plain colored"></i>CSS3</span>
-                    <span class="skill-bar-pct">0%</span>
-                  </div>
-                  <div class="skill-bar-track"><div class="skill-bar-fill"></div></div>
-                </div>
-
-                <div class="skill-bar-item" data-pct="15">
-                  <div class="skill-bar-meta">
-                    <span class="skill-bar-name"><i class="devicon-javascript-plain colored"></i>JavaScript</span>
-                    <span class="skill-bar-pct">0%</span>
-                  </div>
-                  <div class="skill-bar-track"><div class="skill-bar-fill"></div></div>
-                </div>
-
-              </div>
-            </div>
-
-            <!-- Tools & Systems — full width -->
-            <div class="skills-cat-card skills-cat-card--wide reveal">
-              <div class="skills-cat-header">
-                <span class="skills-cat-icon">🔧</span>
-                <span class="skills-cat-name">Tools &amp; Systems</span>
-              </div>
-              <div class="skills-bar-list skills-bar-list--grid">
-
-                <div class="skill-bar-item" data-pct="65">
-                  <div class="skill-bar-meta">
-                    <span class="skill-bar-name"><i class="devicon-git-plain colored"></i>Git</span>
-                    <span class="skill-bar-pct">0%</span>
-                  </div>
-                  <div class="skill-bar-track"><div class="skill-bar-fill"></div></div>
-                </div>
-
-                <div class="skill-bar-item" data-pct="65">
-                  <div class="skill-bar-meta">
-                    <span class="skill-bar-name"><i class="devicon-github-original"></i>GitHub</span>
-                    <span class="skill-bar-pct">0%</span>
-                  </div>
-                  <div class="skill-bar-track"><div class="skill-bar-fill"></div></div>
-                </div>
-
-                <div class="skill-bar-item" data-pct="30">
-                  <div class="skill-bar-meta">
-                    <span class="skill-bar-name"><i class="devicon-linux-plain colored"></i>Linux / Ubuntu</span>
-                    <span class="skill-bar-pct">0%</span>
-                  </div>
-                  <div class="skill-bar-track"><div class="skill-bar-fill"></div></div>
-                </div>
-
-                <div class="skill-bar-item" data-pct="50">
-                  <div class="skill-bar-meta">
-                    <span class="skill-bar-name">🖥️ VMware</span>
-                    <span class="skill-bar-pct">0%</span>
-                  </div>
-                  <div class="skill-bar-track"><div class="skill-bar-fill"></div></div>
-                </div>
-
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      <!-- PROJECTS SECTION -->
-      <section id="projects" class="projects-section">
-        <div class="section-container">
-
-          <p class="section-label">What I've Built</p>
-          <h2 class="section-heading">My Projects</h2>
-          <p class="projects-intro">
-            A selection of things I've built — from systems programming to web development.
-          </p>
-
-          <div class="projects-grid">
-
-            <article class="project-card reveal">
-              <div class="project-image">
-                <img src="assets/images/ATM_screenshot_2.png" alt="ATM Simulation System screenshot" class="project-screenshot"/>
-              </div>
-              <div class="project-body">
-                <div class="project-tags">
-                  <span class="tech-tag">C++</span>
-                  <span class="tech-tag">SQL</span>
-                  <span class="tech-tag">SFML</span>
-                  <span class="tech-tag">OOP</span>
-                </div>
-                <h3 class="project-title">ATM Simulation System</h3>
-                <p class="project-description">
-                  A fully functional ATM simulator with SFML GUI, SQL database integration,
-                  account management, deposit/withdrawal logic, and account lockout after failed login attempts.
-                </p>
-                <div class="project-links">
-                  <a href="https://github.com/Ibrahim-Talib/ATM-Simulation-System" target="_blank" rel="noopener noreferrer" class="project-btn project-btn--code">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
-                    Code
-                  </a>
-                  <a href="#" class="project-btn project-btn--demo">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                    Live Demo
-                  </a>
-                </div>
-              </div>
-            </article>
-
-            <article class="project-card reveal reveal-delay-1">
-              <div class="project-image project-image--code">
-                <div class="project-code-preview">
-                  <div class="code-header">
-                    <span class="code-dot" style="background:#ff5f57"></span>
-                    <span class="code-dot" style="background:#ffbd2e"></span>
-                    <span class="code-dot" style="background:#28c840"></span>
-                    <span class="code-filename">memory_manager.c</span>
-                  </div>
-                  <pre class="code-snippet"><code><span style="color:#BDD600">malloc</span>(<span style="color:#38BDF8">sizeof</span>(Node));
-<span style="color:#BDD600">free</span>(ptr);
-<span style="color:#9A9A8A">// track allocations</span>
-<span style="color:#BDD600">realloc</span>(buf, newSize);</code></pre>
-                </div>
-              </div>
-              <div class="project-body">
-                <div class="project-tags">
-                  <span class="tech-tag">C</span>
-                  <span class="tech-tag">Memory</span>
-                  <span class="tech-tag">Data Structures</span>
-                  <span class="tech-tag">CLI</span>
-                </div>
-                <h3 class="project-title">C Chatbot Memory Manager</h3>
-                <p class="project-description">
-                  A custom memory management system built in C for a chatbot application.
-                  Implements dynamic allocation tracking, memory pooling, and leak detection — built as a university project.
-                </p>
-                <div class="project-links">
-                  <a href="https://github.com/Ibrahim-Talib" target="_blank" rel="noopener noreferrer" class="project-btn project-btn--code">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
-                    Code
-                  </a>
-                  <a href="#" class="project-btn project-btn--demo">
-                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-                    Live Demo
-                  </a>
-                </div>
-              </div>
-            </article>
-
-            <article class="project-card project-card--placeholder reveal reveal-delay-2">
-              <div class="project-placeholder-inner">
-                <div class="placeholder-icon">+</div>
-                <h3 class="project-title">Next Project</h3>
-                <p class="project-description">Currently working on something new. Check back soon.</p>
-              </div>
-            </article>
-
-          </div>
-        </div>
-      </section>
-
-      <!-- CONTACT SECTION -->
-      <section id="contact" class="contact-section">
-        <div class="section-container">
-
-          <p class="section-label">Get In Touch</p>
-          <h2 class="section-heading">Contact Me</h2>
-
-          <p class="contact-intro">
-            I'm currently open to internship opportunities and collaborations.
-            Whether you have a question, a project idea, or just want to say hi —
-            my inbox is always open.
-          </p>
-
-          <div class="contact-wrapper">
-
-            <form class="contact-form reveal" action="https://formspree.io/f/mpqykerg" method="POST">
-              <div class="form-group">
-                <label for="name">Full Name</label>
-                <input type="text" id="name" name="name" placeholder="Your full name" required />
-              </div>
-              <div class="form-group">
-                <label for="email">Email Address</label>
-                <input type="email" id="email" name="email" placeholder="your@email.com" required />
-              </div>
-              <div class="form-group">
-                <label for="subject">Subject</label>
-                <input type="text" id="subject" name="subject" placeholder="What is this about?" required />
-              </div>
-              <div class="form-group">
-                <label for="message">Message</label>
-                <textarea id="message" name="message" rows="5" placeholder="Write your message here..." required></textarea>
-              </div>
-              <button type="submit" class="btn btn-primary">Send Message</button>
-            </form>
-
-            <div class="contact-info reveal reveal-delay-2">
-              <div class="contact-item">
-                <span class="contact-icon">📧</span>
-                <div>
-                  <p class="contact-label">Email</p>
-                  <a href="mailto:ibrahimtalib.official@gmail.com" class="contact-link">ibrahimtalib.official@gmail.com</a>
-                </div>
-              </div>
-              <div class="contact-item">
-                <span class="contact-icon">📍</span>
-                <div>
-                  <p class="contact-label">Location</p>
-                  <p class="contact-value">Lahore, Pakistan</p>
-                </div>
-              </div>
-              <div class="contact-item">
-                <span class="contact-icon">🎓</span>
-                <div>
-                  <p class="contact-label">University</p>
-                  <p class="contact-value">LUMS — BS Computer Science</p>
-                  <p class="contact-value">Specialization: Cyber Security</p>
-                </div>
-              </div>
-              <div class="contact-socials">
-                <a href="https://linkedin.com/in/ibrahim-talib-30941536a" target="_blank" rel="noopener noreferrer" class="social-link">LinkedIn</a>
-                <a href="https://github.com/Ibrahim-Talib" target="_blank" rel="noopener noreferrer" class="social-link">GitHub</a>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-    </main>
-
-    <!-- FOOTER -->
-    <footer class="footer">
-      <div class="footer-container">
-        <p class="footer-name">Ibrahim Talib</p>
-        <p class="footer-tagline">CS Student @ LUMS · Aspiring Cybersecurity Engineer</p>
-        <div class="footer-links">
-          <a href="#hero">Home</a>
-          <a href="#about">About</a>
-          <a href="#skills">Skills</a>
-          <a href="#projects">Projects</a>
-          <a href="#contact">Contact</a>
-        </div>
-        <p class="footer-copy">&copy; 2026 Ibrahim Talib. Built from scratch with HTML, CSS &amp; JavaScript.</p>
+        </form>
       </div>
-    </footer>
+    </div>
+  </section>
+</main>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js"></script>
-    <script src="script.js"></script>
+<!-- ============ TITLE BLOCK / FOOTER ============ -->
+<footer class="site-foot">
+  <div class="wrap">
+    <div class="titleblock" role="contentinfo" aria-label="Schematic title block">
+      <div class="tb-cell tb-title">
+        <span class="tb-k">TITLE</span>
+        <span class="tb-v">PORTFOLIO, ONE SHEET</span>
+      </div>
+      <div class="tb-cell"><span class="tb-k">DRAWN BY</span><span class="tb-v">IBRAHIM TALIB CH.</span></div>
+      <div class="tb-cell"><span class="tb-k">TOOLING</span><span class="tb-v">HAND-ROUTED HTML/CSS/JS + CLAUDE CODE</span></div>
+      <div class="tb-cell"><span class="tb-k">DATE</span><span class="tb-v">2026-07-06</span></div>
+      <div class="tb-cell"><span class="tb-k">REV</span><span class="tb-v">B</span></div>
+      <div class="tb-cell"><span class="tb-k">SHEET</span><span class="tb-v">1 OF 1</span></div>
+      <div class="tb-cell tb-approved"><span class="tb-k">APPROVED</span><span class="tb-v">PENDING YOUR REPLY</span></div>
+    </div>
+    <div class="foot-row">
+      <p class="foot-note">No frameworks, no trackers, no build step. Two typefaces, both SIL OFL.</p>
+      <ul class="foot-links" aria-label="Contact links">
+        <li><a href="https://wa.me/923094455101" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp, opens in a new tab">WHATSAPP</a></li>
+        <li><a href="mailto:ibrahimtalib.official@gmail.com" aria-label="Email Ibrahim">EMAIL</a></li>
+        <li><a href="https://github.com/Ibrahim-Talib" target="_blank" rel="noopener noreferrer" aria-label="GitHub, opens in a new tab">GITHUB</a></li>
+        <li><a href="https://www.linkedin.com/in/ibrahim-talib-30941536a" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn, opens in a new tab">LINKEDIN</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
 
-  </body>
+<script src="js/main.js" defer></script>
+</body>
 </html>
