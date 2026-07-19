@@ -26,8 +26,8 @@ export default function initArm(opts) {
   var cam = new THREE.PerspectiveCamera(32, 1, 0.1, 50);
   /* the camera is auto-fitted: distance is computed from a bounding sphere
      so the base plate and gripper always stay in frame at any aspect */
-  var CENTER = new THREE.Vector3(0, 1.06, 0);
-  var FIT_R = 1.74;
+  var CENTER = new THREE.Vector3(-0.12, 0.75, 0.09);
+  var FIT_R = 1.30;
   var camDir = new THREE.Vector3(2.7, 1.1, 3.6).normalize();
   var camBase = new THREE.Vector3();
 
@@ -148,6 +148,9 @@ export default function initArm(opts) {
   };
   /* two-link reach: shoulder->elbow and elbow->claw tip */
   var L1 = 0.78, L2 = 0.84, SY = 0.74;
+  /* minimum shoulder pitch: keeps the elbow hub below the telemetry
+     panel on screen. recomputed by fit() for the current layout. */
+  st.j2floor = LIM.j2lo;
 
   function clamp(v, lo, hi) { return v < lo ? lo : v > hi ? hi : v; }
 
@@ -164,7 +167,7 @@ export default function initArm(opts) {
     var elbow = Math.acos(c3);
     var sh = phi - Math.atan2(L2 * Math.sin(elbow), L1 + L2 * Math.cos(elbow));
     st.tgt.j1 = clamp(yaw, -LIM.j1, LIM.j1);
-    st.tgt.j2 = clamp(sh, LIM.j2lo, LIM.j2hi);
+    st.tgt.j2 = clamp(sh, st.j2floor, LIM.j2hi);
     st.tgt.j3 = clamp(elbow, LIM.j3lo, LIM.j3hi);
     /* wrist curls the claw down toward the target line, never up */
     st.tgt.j4 = clamp(0.35 + (phi - st.tgt.j2 - st.tgt.j3) * 0.5, LIM.j4lo, LIM.j4hi);
@@ -239,6 +242,29 @@ export default function initArm(opts) {
   }
 
   /* ---------- sizing ---------- */
+  /* the elbow may never rise above the telemetry panel: convert the
+     panel's bottom edge to a max elbow height, then to a pitch floor */
+  function computeJ2Floor() {
+    st.j2floor = LIM.j2lo;
+    var tel = bay.querySelector('.arm-tel');
+    if (!tel) return;
+    var cRect = canvas.getBoundingClientRect();
+    var tRect = tel.getBoundingClientRect();
+    if (!cRect.height || !tRect.height) return;
+    var capPx = tRect.bottom + 26; /* margin also absorbs camera parallax */
+    function screenY(wy) {
+      var v = new THREE.Vector3(0, wy, 0).project(cam);
+      return cRect.top + (-v.y * 0.5 + 0.5) * cRect.height;
+    }
+    var yHi = screenY(SY + L1);        /* elbow at straight-up */
+    var yLo = screenY(SY);             /* elbow at horizontal */
+    if (yHi >= capPx || yLo === yHi) return;   /* already clear of the panel */
+    var t = (capPx - yHi) / (yLo - yHi);
+    var ycap = (SY + L1) + t * (SY - (SY + L1));
+    var c = clamp((ycap - SY) / L1, -1, 1);
+    st.j2floor = Math.max(LIM.j2lo, Math.acos(c));
+  }
+
   function fit() {
     var w = bay.clientWidth, h = bay.clientHeight;
     if (!w || !h) return;
@@ -252,9 +278,11 @@ export default function initArm(opts) {
     cam.position.copy(camBase);
     cam.lookAt(CENTER);
     cam.updateProjectionMatrix();
+    computeJ2Floor();
   }
   fit();
   if ('ResizeObserver' in window) new ResizeObserver(function () { fit(); render(); }).observe(bay);
+  window.addEventListener('resize', function () { fit(); render(); });
 
   function render() { renderer.render(scene, cam); }
 
@@ -335,7 +363,14 @@ export default function initArm(opts) {
   /* debug hook: this machine's preview pane never fires rAF, so tests
      drive the sim manually. harmless in production. */
   window.__armDebug = {
-    st: st, step: step, render: render, tickTel: tickTel,
+    st: st, step: step, render: render, tickTel: tickTel, fit: fit,
+    /* J3 elbow hub center in CSS-pixel page coordinates */
+    elbowScreen: function () {
+      var v = j3.getWorldPosition(new THREE.Vector3());
+      v.project(cam);
+      var r = renderer.domElement.getBoundingClientRect();
+      return { x: r.left + (v.x * 0.5 + 0.5) * r.width, y: r.top + (-v.y * 0.5 + 0.5) * r.height };
+    },
     /* projects the rig's bounding box to NDC; all values in [-1,1] = fully framed */
     frameCheck: function () {
       root.updateWorldMatrix(true, true);

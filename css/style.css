@@ -566,51 +566,74 @@ html.js .hero-title.in .line:nth-child(3) { transition-delay: 200ms; }
   color: var(--ink-2);
 }
 
-.profile-body .lead {
-  font-size: 17px;
-  line-height: 1.7;
-  color: var(--ink);
-  max-width: 46ch;
+/* about: a thesis line, short copy, and a datasheet ratings table */
+.about-thesis {
+  font-size: clamp(1.55rem, 2.6vw, 2.5rem);
+  line-height: 1.12;
+  letter-spacing: -0.01em;
+  max-width: 22ch;
 }
-.profile-body .lead strong { color: var(--signal-deep); font-weight: 500; }
-
-/* stats set like title-block cells, not accent bars */
-.statline {
+.about-thesis em {
+  font-style: italic;
+  color: var(--signal);
+  display: inline-block;
+  transform: skewX(-6deg);
+}
+.about-cols {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  margin-top: 30px;
-  border: 1px solid var(--line);
-  background: var(--line-soft);
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 440px);
+  gap: clamp(28px, 4vw, 56px);
+  align-items: start;
+  margin-top: clamp(24px, 4vh, 40px);
 }
-.statline > div { background: var(--paper-2); padding: 16px 18px; }
-.stat-num {
-  font: 400 clamp(1.7rem, 3vw, 2.4rem)/1 var(--font-disp);
-  color: var(--ink);
-}
-.stat-lab {
-  display: block;
-  margin-top: 8px;
-  font-size: 9.5px;
-  letter-spacing: 0.18em;
+.about-copy p {
+  font-size: 13.5px;
+  line-height: 1.85;
   color: var(--ink-2);
+  max-width: 52ch;
 }
+.about-copy p + p { margin-top: 16px; }
+.about-copy p.about-motto { color: var(--ink); font-weight: 500; letter-spacing: 0.02em; }
+.about-copy .btn { margin-top: 26px; }
 
-.pinout { margin-top: 32px; border-bottom: 1px solid var(--line-soft); }
-.pinout li {
-  display: grid;
-  grid-template-columns: 56px 120px 1fr;
-  gap: 14px;
+.ratings-head {
+  display: flex;
+  justify-content: space-between;
   align-items: baseline;
-  padding: 12px 10px;
-  border-top: 1px solid var(--line-soft);
-  transition: background-color var(--t-fast);
+  gap: 12px;
+  padding: 11px 14px;
+  background: var(--ink);
+  color: var(--paper);
+  font: 500 11px/1 var(--font-mono);
+  letter-spacing: 0.18em;
+  border: 1.5px solid var(--ink);
+  border-bottom: 0;
 }
-.pinout .pin-no  { font-size: 10.5px; letter-spacing: 0.1em; color: var(--signal-deep); font-weight: 500; }
-.pinout .pin-fn  { font-size: 10.5px; letter-spacing: 0.14em; color: var(--ink-2); }
-.pinout .pin-val { font-size: 13.5px; color: var(--ink); }
-@media (hover: hover) and (pointer: fine) {
-  .pinout li:hover { background: var(--signal-wash); }
+.ratings-no { color: var(--signal); }
+.ratings-tbl {
+  width: 100%;
+  border-collapse: collapse;
+  border: 1.5px solid var(--ink);
+  background: var(--paper-2);
+}
+.ratings-tbl th, .ratings-tbl td { padding: 12px 14px; border-top: 1px solid var(--line-soft); }
+.ratings-tbl tr:first-child th, .ratings-tbl tr:first-child td { border-top: 0; }
+.ratings-tbl th {
+  text-align: left;
+  width: 36%;
+  font: 400 10.5px/1.5 var(--font-mono);
+  font-weight: 400;
+  letter-spacing: 0.16em;
+  color: var(--ink-2);
+  border-right: 1px solid var(--line-soft);
+}
+.ratings-tbl td { text-align: right; font-size: 12.5px; color: var(--ink); }
+.ratings-tbl td.ratings-hot { color: var(--signal-deep); font-weight: 500; letter-spacing: 0.06em; }
+.ratings-note {
+  margin-top: 10px;
+  font-size: 9.5px;
+  letter-spacing: 0.14em;
+  color: var(--ink-2);
 }
 .profile-body .btn { margin-top: 28px; }
 
@@ -724,6 +747,22 @@ html.js .hero-title.in .line:nth-child(3) { transition-delay: 200ms; }
   gap: 26px;
 }
 .module-more { margin-top: 40px; display: flex; justify-content: center; }
+
+/* wide sheets: figures shrink to a side plate, text leads */
+@media (min-width: 980px) {
+  .module-grid .module-inner { display: grid; grid-template-columns: 225px minmax(0, 1fr); align-items: stretch; }
+  .module-grid .module-media {
+    aspect-ratio: auto;
+    padding: 16px;
+    border-bottom: 0;
+    border-right: 1px solid var(--line-soft);
+  }
+  .module-grid .module-media svg { max-width: 200px; width: 100%; }
+  .module-featured .module-inner { grid-template-columns: minmax(250px, 4fr) 8fr; }
+  .module-featured .module-media { min-height: 250px; padding: 18px; }
+  .module-featured .module-media .robot { max-width: 330px; }
+  .module-body { padding: clamp(16px, 1.6vw, 24px); }
+}
 
 /* ---------- module SVG artwork: shared ink/signal linework ---------- */
 .g-body  { fill: none; stroke: var(--ink); stroke-width: 2; stroke-linejoin: round; }
@@ -1046,6 +1085,18 @@ html.js .stack-grid .meter-fill {
 }
 html.js .stack-grid.in .meter-fill { transform: none; }
 
+/* the whole rack reads in one viewport */
+#skills { padding-block: clamp(44px, 6vh, 68px); }
+#skills .sec-head { margin-bottom: clamp(20px, 3vh, 32px); }
+#skills .sec-head h2 { font-size: clamp(2rem, 4.6vw, 3.4rem); }
+.channel { padding: clamp(16px, 2.4vh, 26px) clamp(18px, 2.4vw, 32px); }
+.channel:nth-child(odd) { padding-left: 0; }
+.channel:nth-child(even) { padding-right: 0; }
+.channel-head h3 { font-size: clamp(1.05rem, 1.6vw, 1.35rem); }
+.meters { margin-top: 10px; }
+.meter-row { padding-block: 8px 10px; }
+.meter { height: 6px; margin-top: 7px; }
+
 /* ---------- contact ---------- */
 .sec-contact { background: var(--paper-3); border-block: 1.5px solid var(--ink); }
 
@@ -1206,6 +1257,9 @@ html.js .stack-grid.in .meter-fill { transform: none; }
   .stack-grid { grid-template-columns: 1fr; }
   .channel { padding-inline: 0; border-right: 0 !important; }
   .channel:nth-child(-n+3) { border-bottom: 1px solid var(--line); }
+  .about-cols { grid-template-columns: 1fr; }
+  .about-thesis { max-width: none; }
+  .module-media { aspect-ratio: 16 / 8; }
 }
 
 @media (max-width: 759px) {
@@ -1230,14 +1284,9 @@ html.js .stack-grid.in .meter-fill { transform: none; }
     to   { opacity: 1; transform: none; }
   }
   .module-media { aspect-ratio: 16 / 11; }
-
-  .statline { grid-template-columns: 1fr; }
-  .stat-num { font-size: 1.7rem; }
 }
 
 @media (max-width: 620px) {
-  .pinout li { grid-template-columns: 52px 1fr; }
-  .pinout .pin-val { grid-column: 1 / -1; padding-left: 0; }
   .port { grid-template-areas: "pin name arrow" "detail detail detail"; row-gap: 8px; }
   .port-detail { padding-left: 2px; }
   .hero-eyebrow .eb-domains { margin-left: 0; }
