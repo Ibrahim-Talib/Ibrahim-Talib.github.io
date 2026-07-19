@@ -199,6 +199,13 @@
   function buildSpine() {
     if (!spine || !rail) return;
     applyFold();   /* self-heal fold state even if a resize event was missed */
+    /* phones do without the plotter line entirely (CSS hides it too) */
+    if (window.matchMedia('(max-width: 759px)').matches) {
+      spineBuilt = false;
+      spine.setAttribute('width', 0);
+      spine.setAttribute('height', 0);
+      return;
+    }
     /* collapse the spine before measuring, or its own height inflates the sheet */
     spine.setAttribute('width', 0);
     spine.setAttribute('height', 0);
@@ -385,9 +392,10 @@
     var armBooted = false;
     var bootArm = function () {
       if (armBooted) return;
-      /* small phones keep the static plot. width is re-checked on resize
-         because a viewport can start narrow (or misreport) and widen later */
-      if (window.innerWidth < 480) return;
+      /* phones and tablets skip the arm entirely (the bay is display:none
+         there). width is re-checked on resize because a viewport can start
+         narrow (or misreport) and widen later */
+      if (window.innerWidth < 980) return;
       armBooted = true;
       import('./arm.js').then(function (mod) {
         mod.default({

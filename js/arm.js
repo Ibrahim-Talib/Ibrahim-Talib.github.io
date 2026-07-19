@@ -23,9 +23,13 @@ export default function initArm(opts) {
   renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
 
   var scene = new THREE.Scene();
-  var cam = new THREE.PerspectiveCamera(30, 1, 0.1, 50);
-  cam.position.set(2.7, 2.0, 3.6);
-  cam.lookAt(0, 1.02, 0);
+  var cam = new THREE.PerspectiveCamera(32, 1, 0.1, 50);
+  /* the camera is auto-fitted: distance is computed from a bounding sphere
+     so the base plate and gripper always stay in frame at any aspect */
+  var CENTER = new THREE.Vector3(0, 1.06, 0);
+  var FIT_R = 1.60;
+  var camDir = new THREE.Vector3(2.7, 1.1, 3.6).normalize();
+  var camBase = new THREE.Vector3();
 
   var INK = 0x1a1611, SIG = 0xe04416;
   var matEdge = new THREE.LineBasicMaterial({ color: INK });
@@ -76,27 +80,27 @@ export default function initArm(opts) {
   var hub2 = wire(new THREE.CylinderGeometry(0.24, 0.24, 0.3, 20));
   hub2.rotation.z = Math.PI / 2; j2.add(hub2);
   var r2 = ring(0.27); r2.rotation.z = Math.PI / 2; j2.add(r2);
-  var link1 = edges(new THREE.CylinderGeometry(0.09, 0.14, 0.95, 8));
-  link1.position.y = 0.475; j2.add(link1);
+  var link1 = edges(new THREE.CylinderGeometry(0.09, 0.14, 0.78, 8));
+  link1.position.y = 0.39; j2.add(link1);
   var g1 = edges(new THREE.BoxGeometry(0.10, 0.22, 0.16), 12);
-  g1.position.set(0.10, 0.42, 0); j2.add(g1);
+  g1.position.set(0.10, 0.34, 0); j2.add(g1);
 
   /* boot sleeve under the elbow */
   for (var s = 0; s < 4; s++) {
     var sleeve = edges(new THREE.CylinderGeometry(0.10 + (s % 2) * 0.025, 0.10 + (s % 2) * 0.025, 0.03, 12), 30);
-    sleeve.position.y = 0.78 + s * 0.045; j2.add(sleeve);
+    sleeve.position.y = 0.60 + s * 0.045; j2.add(sleeve);
   }
 
   /* J3 elbow */
-  var j3 = new THREE.Group(); j3.position.y = 0.95; j2.add(j3);
+  var j3 = new THREE.Group(); j3.position.y = 0.78; j2.add(j3);
   var hub3 = wire(new THREE.CylinderGeometry(0.19, 0.19, 0.24, 20));
   hub3.rotation.z = Math.PI / 2; j3.add(hub3);
   var r3 = ring(0.22); r3.rotation.z = Math.PI / 2; j3.add(r3);
-  var link2 = edges(new THREE.CylinderGeometry(0.07, 0.10, 0.80, 8));
-  link2.position.y = 0.40; j3.add(link2);
+  var link2 = edges(new THREE.CylinderGeometry(0.07, 0.10, 0.62, 8));
+  link2.position.y = 0.31; j3.add(link2);
 
   /* J4 wrist + gripper */
-  var j4 = new THREE.Group(); j4.position.y = 0.80; j3.add(j4);
+  var j4 = new THREE.Group(); j4.position.y = 0.62; j3.add(j4);
   var wrist = edges(new THREE.CylinderGeometry(0.09, 0.055, 0.16, 8));
   wrist.position.y = 0.08; j4.add(wrist);
   var r4 = ring(0.10, matSig, 24); r4.position.y = 0.17; j4.add(r4);
@@ -134,9 +138,9 @@ export default function initArm(opts) {
     mode: 'patrol', t: 0,
     cur: { j1: 0, j2: -0.25, j3: 0.55, j4: -0.30, grip: 0.15 },
     tgt: { j1: 0, j2: -0.25, j3: 0.55, j4: -0.30, grip: 0.15 },
-    px: 0, py: 0, hasPointer: false
+    px: 0, py: 0, pinch: 0, hasPointer: false
   };
-  var LIM = { j1: 0.96, j2lo: -0.55, j2hi: 0.30, j3lo: -0.10, j3hi: 1.05 };
+  var LIM = { j1: 1.25, j2lo: -0.72, j2hi: 0.48, j3lo: -0.10, j3hi: 1.28 };
 
   function step(dt) {
     st.t += dt;
@@ -146,25 +150,35 @@ export default function initArm(opts) {
       st.tgt.j3 = 0.55 + Math.sin(st.t * 0.31) * 0.09;
       st.tgt.j4 = -0.30;
       st.tgt.grip = 0.15;
+      /* camera drifts back to center once the pointer is gone */
+      st.px += (0 - st.px) * Math.min(1, dt * 2);
+      st.py += (0 - st.py) * Math.min(1, dt * 2);
     } else if (st.mode === 'track') {
-      st.tgt.j1 = Math.max(-LIM.j1, Math.min(LIM.j1, st.px * 0.95));
-      st.tgt.j2 = Math.max(LIM.j2lo, Math.min(LIM.j2hi, -0.25 - st.py * 0.26));
-      st.tgt.j3 = Math.max(LIM.j3lo, Math.min(LIM.j3hi, 0.55 + st.py * 0.34));
-      st.tgt.j4 = -0.30 - st.py * 0.18;
+      st.tgt.j1 = Math.max(-LIM.j1, Math.min(LIM.j1, st.px * 1.35));
+      st.tgt.j2 = Math.max(LIM.j2lo, Math.min(LIM.j2hi, -0.25 - st.py * 0.42));
+      st.tgt.j3 = Math.max(LIM.j3lo, Math.min(LIM.j3hi, 0.55 + st.py * 0.52));
+      st.tgt.j4 = -0.30 - st.py * 0.32;
     }
-    var k = Math.min(1, dt * 4.6); /* servo lag */
+    if (st.pinch > 0) { st.pinch -= dt; st.tgt.grip = 1; }
+    var k = Math.min(1, dt * 7.2); /* servo response */
     for (var key in st.cur) st.cur[key] += (st.tgt[key] - st.cur[key]) * k;
 
     j1.rotation.y = st.cur.j1;
     j2.rotation.x = st.cur.j2;
     j3.rotation.x = st.cur.j3;
     j4.rotation.x = st.cur.j4;
+    j4.rotation.y = -st.cur.j1 * 0.25; /* wrist counter-twist */
     for (var i = 0; i < fingers.length; i++) {
       fingers[i].children[0].rotation.z = -0.5 + st.cur.grip * 0.55;
     }
     tgt.visible = st.mode === 'track';
     if (tgt.visible) {
-      tgt.position.set(st.px * 1.15, 1.85 - (st.py + 1) * 0.72, 1.05);
+      tgt.position.set(st.px * 1.15, 1.55 - (st.py + 1) * 0.60, 1.05);
+    }
+    /* pointer parallax on the camera, never in hold */
+    if (st.mode !== 'hold') {
+      cam.position.set(camBase.x + st.px * 0.26, camBase.y - st.py * 0.18, camBase.z);
+      cam.lookAt(CENTER);
     }
   }
 
@@ -202,8 +216,13 @@ export default function initArm(opts) {
     if (!w || !h) return;
     renderer.setSize(w, h, false);
     cam.aspect = w / h;
-    /* keep the whole arm in frame on narrow bays */
-    cam.fov = w / h < 0.9 ? 38 : 30;
+    /* fit the bounding sphere in whichever field of view is tighter */
+    var vFov = cam.fov * Math.PI / 180;
+    var hFov = 2 * Math.atan(Math.tan(vFov / 2) * cam.aspect);
+    var dist = FIT_R / Math.sin(Math.min(vFov, hFov) / 2) * 1.04;
+    camBase.copy(CENTER).addScaledVector(camDir, dist);
+    cam.position.copy(camBase);
+    cam.lookAt(CENTER);
     cam.updateProjectionMatrix();
   }
   fit();
@@ -262,6 +281,11 @@ export default function initArm(opts) {
       window.clearTimeout(leaveTimer);
       leaveTimer = window.setTimeout(function () { st.mode = 'patrol'; }, 1500);
     });
+    /* a press makes the gripper snap shut for a beat */
+    hero.addEventListener('pointerdown', function () {
+      st.pinch = 0.45;
+      kick();
+    });
   }
 
   /* ---------- go ---------- */
@@ -281,5 +305,23 @@ export default function initArm(opts) {
 
   /* debug hook: this machine's preview pane never fires rAF, so tests
      drive the sim manually. harmless in production. */
-  window.__armDebug = { st: st, step: step, render: render, tickTel: tickTel };
+  window.__armDebug = {
+    st: st, step: step, render: render, tickTel: tickTel,
+    /* projects the rig's bounding box to NDC; all values in [-1,1] = fully framed */
+    frameCheck: function () {
+      root.updateWorldMatrix(true, true);
+      var box = new THREE.Box3().setFromObject(root);
+      var ndc = { x0: 9, x1: -9, y0: 9, y1: -9 };
+      [box.min.x, box.max.x].forEach(function (x) {
+        [box.min.y, box.max.y].forEach(function (y) {
+          [box.min.z, box.max.z].forEach(function (z) {
+            var v = new THREE.Vector3(x, y, z).project(cam);
+            ndc.x0 = Math.min(ndc.x0, v.x); ndc.x1 = Math.max(ndc.x1, v.x);
+            ndc.y0 = Math.min(ndc.y0, v.y); ndc.y1 = Math.max(ndc.y1, v.y);
+          });
+        });
+      });
+      return ndc;
+    }
+  };
 }
