@@ -27,7 +27,7 @@ export default function initArm(opts) {
   /* the camera is auto-fitted: distance is computed from a bounding sphere
      so the base plate and gripper always stay in frame at any aspect */
   var CENTER = new THREE.Vector3(0, 1.06, 0);
-  var FIT_R = 1.60;
+  var FIT_R = 1.74;
   var camDir = new THREE.Vector3(2.7, 1.1, 3.6).normalize();
   var camBase = new THREE.Vector3();
 
@@ -136,28 +136,57 @@ export default function initArm(opts) {
   /* ---------- state ---------- */
   var st = {
     mode: 'patrol', t: 0,
-    cur: { j1: 0, j2: -0.25, j3: 0.55, j4: -0.30, grip: 0.15 },
-    tgt: { j1: 0, j2: -0.25, j3: 0.55, j4: -0.30, grip: 0.15 },
-    px: 0, py: 0, pinch: 0, hasPointer: false
+    cur: { j1: 0, j2: 0.35, j3: 1.15, j4: 0.45, grip: 0.15 },
+    tgt: { j1: 0, j2: 0.35, j3: 1.15, j4: 0.45, grip: 0.15 },
+    px: 0, py: 0, pinch: 0, aim: { x: 0, y: 0.9, z: 0.95 }
   };
-  var LIM = { j1: 1.25, j2lo: -0.72, j2hi: 0.48, j3lo: -0.10, j3hi: 1.28 };
+  var LIM = {
+    j1: 1.35,
+    j2lo: -0.35, j2hi: 1.05,
+    j3lo: 0.15, j3hi: 2.10,
+    j4lo: 0.15, j4hi: 1.40
+  };
+  /* two-link reach: shoulder->elbow and elbow->claw tip */
+  var L1 = 0.78, L2 = 0.84, SY = 0.74;
+
+  function clamp(v, lo, hi) { return v < lo ? lo : v > hi ? hi : v; }
+
+  /* analytic IK: yaw at the base, then a planar 2-link solve in the
+     yawed vertical plane. the claw lands as close to the target as the
+     servo limits allow. */
+  function solveIK(tx, ty, tz) {
+    var yaw = Math.atan2(tx, tz);
+    var rho = Math.sqrt(tx * tx + tz * tz);
+    var h = ty - SY;
+    var D = clamp(Math.sqrt(rho * rho + h * h), Math.abs(L1 - L2) + 0.02, L1 + L2 - 0.02);
+    var phi = Math.atan2(rho, h);               /* from vertical, toward reach */
+    var c3 = clamp((D * D - L1 * L1 - L2 * L2) / (2 * L1 * L2), -1, 1);
+    var elbow = Math.acos(c3);
+    var sh = phi - Math.atan2(L2 * Math.sin(elbow), L1 + L2 * Math.cos(elbow));
+    st.tgt.j1 = clamp(yaw, -LIM.j1, LIM.j1);
+    st.tgt.j2 = clamp(sh, LIM.j2lo, LIM.j2hi);
+    st.tgt.j3 = clamp(elbow, LIM.j3lo, LIM.j3hi);
+    /* wrist curls the claw down toward the target line, never up */
+    st.tgt.j4 = clamp(0.35 + (phi - st.tgt.j2 - st.tgt.j3) * 0.5, LIM.j4lo, LIM.j4hi);
+  }
 
   function step(dt) {
     st.t += dt;
     if (st.mode === 'patrol') {
-      st.tgt.j1 = Math.sin(st.t * 0.40) * 0.45;
-      st.tgt.j2 = -0.25 + Math.sin(st.t * 0.23) * 0.07;
-      st.tgt.j3 = 0.55 + Math.sin(st.t * 0.31) * 0.09;
-      st.tgt.j4 = -0.30;
+      /* patrol is the same reach, chasing a slow wandering target */
+      st.aim.x = Math.sin(st.t * 0.38) * 0.85;
+      st.aim.y = 0.85 + Math.sin(st.t * 0.22) * 0.28;
+      st.aim.z = 0.95;
+      solveIK(st.aim.x, st.aim.y, st.aim.z);
       st.tgt.grip = 0.15;
       /* camera drifts back to center once the pointer is gone */
       st.px += (0 - st.px) * Math.min(1, dt * 2);
       st.py += (0 - st.py) * Math.min(1, dt * 2);
     } else if (st.mode === 'track') {
-      st.tgt.j1 = Math.max(-LIM.j1, Math.min(LIM.j1, st.px * 1.35));
-      st.tgt.j2 = Math.max(LIM.j2lo, Math.min(LIM.j2hi, -0.25 - st.py * 0.42));
-      st.tgt.j3 = Math.max(LIM.j3lo, Math.min(LIM.j3hi, 0.55 + st.py * 0.52));
-      st.tgt.j4 = -0.30 - st.py * 0.32;
+      st.aim.x = st.px * 1.30;
+      st.aim.y = 1.66 - (st.py + 1) * 0.78;
+      st.aim.z = 0.95;
+      solveIK(st.aim.x, st.aim.y, st.aim.z);
     }
     if (st.pinch > 0) { st.pinch -= dt; st.tgt.grip = 1; }
     var k = Math.min(1, dt * 7.2); /* servo response */
@@ -167,13 +196,12 @@ export default function initArm(opts) {
     j2.rotation.x = st.cur.j2;
     j3.rotation.x = st.cur.j3;
     j4.rotation.x = st.cur.j4;
-    j4.rotation.y = -st.cur.j1 * 0.25; /* wrist counter-twist */
     for (var i = 0; i < fingers.length; i++) {
       fingers[i].children[0].rotation.z = -0.5 + st.cur.grip * 0.55;
     }
     tgt.visible = st.mode === 'track';
     if (tgt.visible) {
-      tgt.position.set(st.px * 1.15, 1.55 - (st.py + 1) * 0.60, 1.05);
+      tgt.position.set(st.aim.x, st.aim.y, st.aim.z);
     }
     /* pointer parallax on the camera, never in hold */
     if (st.mode !== 'hold') {
@@ -292,8 +320,9 @@ export default function initArm(opts) {
   bay.classList.add('arm-live');
   if (reduce) {
     st.mode = 'hold';
-    step(0.016); /* settle one pose */
-    st.cur = st.tgt = { j1: 0.35, j2: -0.28, j3: 0.62, j4: -0.34, grip: 0.15 };
+    solveIK(0.55, 0.85, 0.95); /* a considered reach, claw down */
+    st.tgt.grip = 0.15;
+    for (var hk in st.tgt) st.cur[hk] = st.tgt[hk];
     step(0.016);
     telAcc = 1; tickTel(1);
     render();
