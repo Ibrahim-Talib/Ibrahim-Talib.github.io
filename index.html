@@ -112,16 +112,40 @@
           </div>
         </div>
         <div class="hero-side" data-reveal style="--i:2" aria-hidden="true">
-          <div class="tb-mini">
-            DOC NO. <span class="tb-strong">PRTF-2026-001</span><br>
-            SHEET 1 OF 1 / REV C<br>
-            SCALE: NTS / PEN 01
+          <div class="arm-bay" id="arm-bay">
+            <div class="tb-mini">
+              DOC NO. <span class="tb-strong">PRTF-2026-001</span><br>
+              SHEET 1 OF 1 / REV C<br>
+              SCALE: NTS / PEN 01
+            </div>
+            <canvas class="arm-canvas" id="arm-canvas"></canvas>
+            <!-- static fallback: shown for no-JS, no-WebGL, tiny screens, or load failure -->
+            <svg class="arm-fallback" viewBox="0 0 360 340" focusable="false">
+              <rect class="g-body" x="120" y="292" width="120" height="10"/>
+              <path class="g-body" d="M138 292 q4 -34 42 -38 h4 q34 4 38 38"/>
+              <circle class="g-hot" cx="180" cy="252" r="8"/>
+              <path class="g-body" d="M174 250 L128 138"/>
+              <path class="g-body" d="M188 250 L142 132"/>
+              <circle class="g-hot" cx="134" cy="134" r="9"/>
+              <path class="g-body" d="M136 126 L212 74"/>
+              <path class="g-body" d="M142 140 L218 86"/>
+              <circle class="g-hot" cx="216" cy="80" r="7"/>
+              <path class="g-body" d="M222 76 L262 62 L280 70"/>
+              <path class="g-body" d="M262 62 L284 46"/>
+              <path class="g-hot" d="M280 70 L296 78 M284 46 L300 40"/>
+              <path class="g-weave" d="M60 320 H300"/>
+              <text class="g-label" x="120" y="330">SENTRY ARM / STATIC PLOT</text>
+            </svg>
+            <div class="arm-tel">
+              <p class="arm-tel-head"><span>SENTRY / TELEMETRY</span><span id="arm-state">STATE: STANDBY</span></p>
+              <p class="arm-tel-grid">
+                <span class="tk">J1 YAW</span><span class="tv" id="tel-j1">----</span>
+                <span class="tk">J2 SHLD</span><span class="tv" id="tel-j2">----</span>
+                <span class="tk">J3 ELBW</span><span class="tv" id="tel-j3">----</span>
+                <span class="tk">TGT</span><span class="tv" id="tel-tgt">X ---- / Y ----</span>
+              </p>
+            </div>
           </div>
-          <svg class="hero-arrows" viewBox="0 0 150 90" focusable="false">
-            <path d="M12 8 V52 H64 M56 45 L64 52 L56 59"/>
-            <path d="M88 14 L128 58 M128 46 V58 H116"/>
-            <path d="M40 74 H140 M133 68 L140 74 L133 80"/>
-          </svg>
         </div>
       </div>
     </div>
@@ -674,7 +698,7 @@
       <div class="tb-cell tb-approved"><span class="tb-k">APPROVED</span><span class="tb-v">PENDING YOUR REPLY</span></div>
     </div>
     <div class="foot-row">
-      <p class="foot-note">No frameworks, no trackers, no build step. Two typefaces, both SIL OFL.</p>
+      <p class="foot-note">No frameworks, no trackers, no build step. One 3D engine, self-hosted (Three.js, MIT). Two typefaces, both SIL OFL.</p>
       <ul class="foot-links" aria-label="Contact links">
         <li><a href="https://wa.me/923094455101" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp, opens in a new tab">WHATSAPP</a></li>
         <li><a href="mailto:ibrahimtalib.official@gmail.com" aria-label="Email Ibrahim">EMAIL</a></li>
