@@ -20,4 +20,13 @@ License verification:
 - IBM Plex Mono: distributed via Google Fonts under OFL 1.1.
   License text: https://github.com/google/fonts/blob/main/ofl/ibmplexmono/OFL.txt
 
-No other third-party assets, libraries, or downloads are used.
+## Libraries (self-hosted)
+
+| File | Library / version | Source (downloaded 2026-07-19) | License |
+| --- | --- | --- | --- |
+| `vendor/three.module.min.js` | Three.js 0.172.0 | https://cdn.jsdelivr.net/npm/three@0.172.0/build/three.module.min.js | MIT |
+| `vendor/three.core.min.js` | Three.js 0.172.0 (core split) | https://cdn.jsdelivr.net/npm/three@0.172.0/build/three.core.min.js | MIT |
+
+License text: https://github.com/mrdoob/three.js/blob/dev/LICENSE
+
+No other third-party assets or libraries are used.
