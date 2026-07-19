@@ -379,6 +379,32 @@
     };
   }
 
+  /* ---------- sentry arm: lazy 3D engine, loads after everything else ---------- */
+  var armBay = document.getElementById('arm-bay');
+  if (armBay) {
+    var armBooted = false;
+    var bootArm = function () {
+      if (armBooted) return;
+      /* small phones keep the static plot. width is re-checked on resize
+         because a viewport can start narrow (or misreport) and widen later */
+      if (window.innerWidth < 480) return;
+      armBooted = true;
+      import('./arm.js').then(function (mod) {
+        mod.default({
+          bay: armBay,
+          hero: document.querySelector('.hero'),
+          reduceMotion: reduceMotion
+        });
+      }).catch(function () {
+        var s = document.getElementById('arm-state');
+        if (s) s.textContent = 'STATE: OFFLINE';
+      });
+    };
+    window.addEventListener('resize', bootArm);
+    if (document.readyState === 'complete') bootArm();
+    else window.addEventListener('load', bootArm, { once: true });
+  }
+
   /* ---------- composer: prefill WhatsApp / email, nothing leaves the page ---------- */
   var msgEl = document.getElementById('c-msg');
   var nameEl = document.getElementById('c-name');

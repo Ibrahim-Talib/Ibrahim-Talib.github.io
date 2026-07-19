@@ -67,6 +67,11 @@ and its registration grid show through. No lights, no faces (a single
 near-invisible dark fill mesh may be added inside links if line overlap reads
 muddy; decision left to implementation, must keep the "drawing" look).
 
+**Density rule (user amendment)**: keep the wireframe readable, not
+clustered. Full triangulated wireframe only on the base pedestal and the two
+joint hub discs, at moderate segment counts (radial 24 or less); everything
+else is silhouette edges. When in doubt, fewer lines.
+
 ## Behavior
 
 - **Idle / patrol**: slow sinusoidal sweep (J1 ±25°, gentle J2/J3 breathing),
